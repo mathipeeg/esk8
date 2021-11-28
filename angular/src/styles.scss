@@ -1,0 +1,12 @@
+@use '@angular/material' as mat;
+@import '~sanitize.css/sanitize.css';
+@import "./theme";
+@include mat.core(
+    mat.define-typography-config(
+      $font-family: 'Comic Sans MS' /* Ok, perhaps not */
+    )
+);
+@include mat.all-component-themes($esk8-theme);
+
+html, body { height: 100%; }
+body { margin: 0 }

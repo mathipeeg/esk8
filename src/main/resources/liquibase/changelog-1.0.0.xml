@@ -1,0 +1,290 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.0.xsd">
+
+    <changeSet id="1.0.0:CREATE:DATABASE_SEQUENCE" author="Mathilde Vinther Bækdahl" context="default">
+        <comment>Creating table containing the database sequences</comment>
+        <createTable tableName="DATABASE_SEQUENCE">
+            <column name="SEQUENCE_NAME" type="varchar(100)">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="PK_DATABASE_SEQUENCE" />
+            </column>
+            <column name="NEXT_AVAILABLE_ID" type="int">
+                <constraints nullable="false" />
+            </column>
+        </createTable>
+        <rollback>
+            <dropTable tableName="DATABASE_SEQUENCE" />
+        </rollback>
+    </changeSet>
+
+    <changeSet id="1.0.0:CREATE:VOICE_ACTORS" author="Mathilde Vinther Bækdahl" context="default">
+        <comment>Creation of Voice Table</comment>
+        <createTable tableName="VOICE_ACTORS">
+            <column name="VOICE_ACTOR_ID" type="int">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="PK_VOICE_ACTOR_ID" />
+            </column>
+            <column name="NAME" type="varchar(128)">
+                <constraints nullable="false" />
+            </column>
+        </createTable>
+        <rollback>
+            <dropTable tableName="VOICE_ACTORS" />
+        </rollback>
+    </changeSet>
+
+    <changeSet id="1.0.0:CREATE:ROUTE_NOTIFICATION" author="Mathilde Vinther Bækdahl" context="default">
+        <comment>Creation of Route Status Table</comment>
+        <createTable tableName="ROUTE_NOTIFICATION">
+            <column name="ROUTE_NOTIFICATION_ID" type="int">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="PK_ROUTE_NOTIFICATION_ID" />
+            </column>
+            <column name="IS_ON" type="boolean">
+                <constraints nullable="false" />
+            </column>
+            <column name="INTERVAL" type="int">
+                <constraints nullable="false" />
+            </column>
+            <column name="AVG_SPEED" type="boolean">
+                <constraints nullable="false" />
+            </column>
+            <column name="DISTANCE" type="boolean">
+                <constraints nullable="false" />
+            </column>
+            <column name="TIME" type="boolean">
+                <constraints nullable="false" />
+            </column>
+            <column name="VOICE_ACTOR" type="varchar(128)">
+                <constraints nullable="false" />
+            </column>
+        </createTable>
+        <rollback>
+            <dropTable tableName="ROUTE_NOTIFICATION" />
+        </rollback>
+    </changeSet>
+
+    <changeSet id="1.0.0:CREATE:ROAD_TYPES" author="Mathilde Vinther Bækdahl" context="default">
+        <comment>Creation of Road Types Table</comment>
+        <createTable tableName="ROAD_TYPES">
+            <column name="ROAD_TYPE_ID" type="int">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="PK_ROAD_TYPE_ID" />
+            </column>
+            <column name="NAME" type="varchar(128)">
+                <constraints nullable="false" />
+            </column>
+        </createTable>
+        <rollback>
+            <dropTable tableName="ROAD_TYPES" />
+        </rollback>
+    </changeSet>
+
+    <changeSet id="1.0.0:CREATE:CATEGORIES" author="Mathilde Vinther Bækdahl" context="default">
+        <comment>Creation of Categories Table</comment>
+        <createTable tableName="CATEGORIES">
+            <column name="CATEGORY_ID" type="int">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="PK_CATEGORY_ID" />
+            </column>
+            <column name="CATEGORY" type="varchar(128)">
+                <constraints nullable="false" />
+            </column>
+        </createTable>
+        <rollback>
+            <dropTable tableName="CATEGORIES" />
+        </rollback>
+    </changeSet>
+
+    <changeSet id="1.0.0:CREATE:USERS" author="Mathilde Vinther Bækdahl" context="default">
+        <comment>Creation of User Table</comment>
+        <createTable tableName="USERS">
+            <column name="USER_ID" type="int">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="PK_USER_ID" />
+            </column>
+            <column name="EMAIL" type="varchar(128)">
+                <constraints nullable="false" />
+            </column>
+            <column name="PASSWORD" type="varchar(128)">
+                <constraints nullable="false" />
+            </column>
+            <column name="NAME" type="varchar(128)">
+                <constraints nullable="false" />
+            </column>
+            <column name="GENDER" type="varchar(128)">
+                <constraints nullable="false" />
+            </column>
+            <column name="HEIGHT" type="int">
+                <constraints nullable="false" />
+            </column>
+            <column name="WEIGHT" type="int">
+                <constraints nullable="false" />
+            </column>
+            <column name="VOICE_ACTOR" type="varchar(128)">
+                <constraints nullable="false" />
+            </column>
+        </createTable>
+        <rollback>
+            <dropTable tableName="USERS" />
+        </rollback>
+    </changeSet>
+
+    <changeSet id="1.0.0:CREATE:ROUTES" author="Mathilde Vinther Bækdahl" context="default">
+        <comment>Creation of Routes Table</comment>
+        <createTable tableName="ROUTES">
+            <column name="ROUTE_ID" type="int">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="PK_ROUTE_ID" />
+            </column>
+            <column name="USER_ID" type="int">
+                <constraints nullable="false" foreignKeyName="FK_ROUTE__USER" referencedTableName="USERS" referencedColumnNames="USER_ID"/>
+            </column>
+            <column name="ROAD_TYPE" type="varchar(128)">
+                <constraints nullable="false" />
+            </column>
+            <column name="CATEGORY" type="varchar(128)">
+                <constraints nullable="false" />
+            </column>
+            <column name="LENGTH" type="int">
+                <constraints nullable="false" />
+            </column>
+            <column name="RATING" type="int">
+                <constraints nullable="false" />
+            </column>
+            <column name="NOTE" type="varchar(128)">
+                <constraints nullable="false" />
+            </column>
+            <column name="GEOMETRY" type="geometry(LineString,4326)">
+                <constraints nullable="false" />
+            </column>
+        </createTable>
+        <rollback>
+            <dropTable tableName="ROUTES" />
+        </rollback>
+    </changeSet>
+
+    <changeSet id="1.0.0:CREATE:COMMENTS" author="Mathilde Vinther Bækdahl" context="default">
+        <comment>Creation of Comments Table</comment>
+        <createTable tableName="COMMENTS">
+            <column name="COMMENT_ID" type="int">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="PK_COMMENT_ID" />
+            </column>
+            <column name="USER_ID" type="int">
+                <constraints nullable="false" foreignKeyName="FK_COMMENTS__USERS" referencedTableName="USERS" referencedColumnNames="USER_ID"/>
+            </column>
+            <column name="ROUTE_ID" type="int">
+                <constraints nullable="false" foreignKeyName="FK_ROUTES__BOARDS" referencedTableName="ROUTES" referencedColumnNames="ROUTE_ID"/>
+            </column>
+            <column name="COMMENT" type="varchar(128)">
+                <constraints nullable="false" />
+            </column>
+            <column name="TIMESTAMP" type="timestamp">
+                <constraints nullable="false" />
+            </column>
+        </createTable>
+        <rollback>
+            <dropTable tableName="COMMENTS" />
+        </rollback>
+    </changeSet>
+
+    <changeSet id="1.0.0:CREATE:BOARD_TYPES" author="Mathilde Vinther Bækdahl" context="default">
+        <comment>Creation of Board Types Table</comment>
+        <createTable tableName="BOARD_TYPES">
+            <column name="BOARD_TYPE_ID" type="int">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="PK_BOARD_TYPE_ID" />
+            </column>
+            <column name="NAME" type="varchar(128)">
+                <constraints nullable="false" />
+            </column>
+        </createTable>
+        <rollback>
+            <dropTable tableName="BOARD_TYPES" />
+        </rollback>
+    </changeSet>
+
+    <changeSet id="1.0.0:CREATE:BOARD_BRANDS" author="Mathilde Vinther Bækdahl" context="default">
+        <comment>Creation of Board Brands Table</comment>
+        <createTable tableName="BOARD_BRANDS">
+            <column name="BOARD_BRAND_ID" type="int">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="PK_BOARD_BRAND_ID" />
+            </column>
+            <column name="NAME" type="varchar(128)">
+                <constraints nullable="false" />
+            </column>
+        </createTable>
+        <rollback>
+            <dropTable tableName="BOARD_BRAND" />
+        </rollback>
+    </changeSet>
+
+    <changeSet id="1.0.0:CREATE:BOARDS" author="Mathilde Vinther Bækdahl" context="default">
+        <comment>Creation of Boards Table</comment>
+        <createTable tableName="BOARDS">
+            <column name="BOARD_ID" type="int">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="PK_BOARD_ID" />
+            </column>
+            <column name="BOARD_TYPE" type="varchar(128)">
+                <constraints nullable="false" />
+            </column>
+            <column name="BOARD_BRAND" type="varchar(128)">
+                <constraints nullable="false" />
+            </column>
+            <column name="NICKNAME" type="varchar(128)">
+                <constraints nullable="false" />
+            </column>
+            <column name="WEIGHT" type="int">
+                <constraints nullable="false" />
+            </column>
+            <column name="LENGTH" type="int">
+                <constraints nullable="false" />
+            </column>
+            <column name="MOTOR_TYPE" type="varchar(128)">
+                <constraints nullable="false" />
+            </column>
+            <column name="BATTERY" type="varchar(128)">
+                <constraints nullable="false" />
+            </column>
+            <column name="NOTE" type="varchar(128)">
+                <constraints nullable="false" />
+            </column>
+            <column name="PICTURE" type="bytea">
+                <constraints nullable="false" />
+            </column>
+        </createTable>
+        <rollback>
+            <dropTable tableName="BOARDS" />
+        </rollback>
+    </changeSet>
+
+    <changeSet id="1.0.0:CREATE:ROUTE_STATS" author="Mathilde Vinther Bækdahl" context="default">
+        <comment>Creation of Route Stats Table</comment>
+        <createTable tableName="ROUTE_STATS">
+            <column name="ROUTE_STATS_ID" type="int">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="PK_ROUTE_STATS_ID" />
+            </column>
+            <column name="USER_ID" type="int">
+                <constraints nullable="false" foreignKeyName="FK_ROUTE_STATS__USERS" referencedTableName="USERS" referencedColumnNames="USER_ID"/>
+            </column>
+            <column name="ROUTE_ID" type="int">
+                <constraints nullable="false" foreignKeyName="FK_ROUTE_STATS__ROUTES" referencedTableName="ROUTES" referencedColumnNames="ROUTE_ID"/>
+            </column>
+            <column name="BOARD_ID" type="int">
+                <constraints nullable="false" foreignKeyName="FK_ROUTE_STATS__BOARDS" referencedTableName="BOARDS" referencedColumnNames="BOARD_ID"/>
+            </column>
+            <column name="DISTANCE" type="int">
+                <constraints nullable="false" />
+            </column>
+            <column name="AVG_SPEED" type="int">
+                <constraints nullable="false" />
+            </column>
+            <column name="MAX_SPEED" type="int">
+                <constraints nullable="false" />
+            </column>
+            <column name="POWER" type="int">
+                <constraints nullable="false" />
+            </column>
+        </createTable>
+        <rollback>
+            <dropTable tableName="ROUTE_STATS" />
+        </rollback>
+    </changeSet>
+
+    <changeSet id="VERSION-1.0.0" author="Mathilde Vinther Bækdahl" context="default">
+        <tagDatabase tag="VERSION-1.0.0" />
+    </changeSet>
+
+</databaseChangeLog>

@@ -1,0 +1,28 @@
+services:
+  postgis:
+    image: postgis/postgis:11-2.5-alpine
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: test
+      POSTGRES_DB: esk8_db
+  geoserver:
+    build: .
+    image: docker.northtech.dk/northtech/esk8-geoserver:1.0.0
+    ports:
+      - "8081:8081"
+    environment:
+      JAVA_OPTS: "-Xmx5g -Dorg.apache.tomcat.util.digester.REPLACE_SYSTEM_PROPERTIES=true -DproxyName=localhost -DproxyPort=8081 -DpostgisUrl=jdbc:postgresql://postgis/esk8_db -DpostgisUser=postgres -DpostgisPass=test"
+    volumes:
+      - ./image-configuration/esk8:/usr/local/tomcat/webapps/geoserver/data/workspaces/esk8
+  web:
+    image: nginx
+    ports:
+      - "443:443"
+    environment:
+      - NGINX_HOST=192.168.1.221
+      - NGINX_PORT=443
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./certs:/certs

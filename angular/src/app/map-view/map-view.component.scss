@@ -1,0 +1,10 @@
+#map {
+  position: fixed;
+  top: 50px;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: calc(var(--vh, 1vh) * 100);
+  width: 100vw;
+
+}

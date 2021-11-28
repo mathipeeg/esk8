@@ -1,0 +1,14 @@
+@use '@angular/material' as mat;
+
+$esk8-primary: mat.define-palette(mat.$indigo-palette);
+$esk8-accent: mat.define-palette(mat.$pink-palette, A200, A100, A400);
+
+$esk8-warn: mat.define-palette(mat.$red-palette);
+
+$esk8-theme: mat.define-light-theme((
+  color: (
+    primary: $esk8-primary,
+    accent: $esk8-accent,
+    warn: $esk8-warn,
+  )
+));

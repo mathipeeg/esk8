@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- The context.xml is mounted "deep" into the /usr/local/tomcat/webapps/ROOT/META-INF/ folder, creating the needed JNDI/JDBC for the app. -->
+<Context>
+  <Resource name = "jdbc/esk8"
+            auth="Container"
+            type = "javax.sql.DataSource"
+            driverClassName="org.postgresql.Driver"
+            url="${postgisUrl}"
+            username="${postgisUser}"
+            password="${postgisPass}"
+            initialSize="1"
+            minIdle="1"
+            maxIdle="3"
+            maxTotal="10"
+            validationQuery="select 1"
+  />
+</Context>

@@ -1,0 +1,17 @@
+<layer>
+  <name>routes</name>
+  <id>LayerInfoImpl-1739821b:17d63bfcf4a:-7ffb</id>
+  <type>VECTOR</type>
+  <defaultStyle>
+    <id>StyleInfoImpl-1739821b:17d63bfcf4a:-7ffa</id>
+  </defaultStyle>
+  <resource class="featureType">
+    <id>FeatureTypeInfoImpl-1739821b:17d63bfcf4a:-7ffc</id>
+  </resource>
+  <attribution>
+    <logoWidth>0</logoWidth>
+    <logoHeight>0</logoHeight>
+  </attribution>
+  <dateCreated>2021-11-27 23:37:01.285 UTC</dateCreated>
+  <dateModified>2021-11-27 23:38:42.827 UTC</dateModified>
+</layer>
