@@ -1,9 +1,9 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import {MapViewComponent} from "./map-view/map-view.component";
+import {DashboardComponent} from "./components/dashboard/dashboard.component";
 
 const routes: Routes = [
-  {path: '', component: MapViewComponent},
+  {path: '', component: DashboardComponent},
   {path: '**', redirectTo: '', pathMatch: 'full'}
 ];
 
