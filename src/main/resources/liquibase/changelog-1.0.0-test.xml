@@ -3,13 +3,33 @@
 
     <changeSet id="1.0.0:INSERT:USERS" author="Mathilde Vinther Bækdahl" context="default">
         <comment>Inserting Users</comment>
-        <loadData tableName="USERS" file="liquibase/1.0.0-USERS.csv" encoding="UTF-8" separator=";"></loadData>
+        <loadData tableName="USERS" file="liquibase/1.0.0-USERS.csv" encoding="UTF-8" separator=";"/>
     </changeSet>
 
     <changeSet id="1.0.0:INSERT:ROUTES" author="Mathilde Vinther Bækdahl" context="default">
         <comment>Inserting Routes</comment>
-        <loadData tableName="ROUTES" file="liquibase/1.0.0-ROUTES.csv" encoding="UTF-8" separator="|"></loadData>
+        <loadData tableName="ROUTES" file="liquibase/1.0.0-ROUTES.csv" encoding="UTF-8" separator="|"/>
     </changeSet>
+
+    <changeSet id="1.0.0:INSERT:CATEGORIES" author="Mathilde Vinther Bækdahl" context="default">
+        <comment>Inserting Categories</comment>
+        <loadData tableName="CATEGORIES" file="liquibase/1.0.0-CATEGORIES.csv" encoding="UTF-8" separator=";"/>
+    </changeSet>
+
+    <changeSet id="1.0.0:INSERT:BOARD_BRANDS" author="Mathilde Vinther Bækdahl" context="default">
+        <comment>Inserting Board Brands</comment>
+        <loadData tableName="BOARD_BRANDS" file="liquibase/1.0.0-BOARD-BRANDS.csv" encoding="UTF-8" separator=";"/>
+    </changeSet>
+
+    <changeSet id="1.0.0:INSERT:BOARD_TYPES" author="Mathilde Vinther Bækdahl" context="default">
+        <comment>Inserting Board Types</comment>
+        <loadData tableName="BOARD_TYPES" file="liquibase/1.0.0-BOARD-TYPES.csv" encoding="UTF-8" separator=";"/>
+    </changeSet>
+
+    <changeSet id="1.0.0:INSERT:VOICE_ACTORS" author="Mathilde Vinther Bækdahl" context="default">
+        <comment>Inserting Board Types</comment>
+        <loadData tableName="VOICE_ACTORS" file="liquibase/1.0.0-VOICE-ACTORS.csv" encoding="UTF-8" separator=";"/>
+    </changeSet>TYPES
 
     <changeSet id="VERSION-1.0.0-test" author="Mathilde Vinther Bækdahl" context="default">
         <tagDatabase tag="VERSION-1.0.0-test" />

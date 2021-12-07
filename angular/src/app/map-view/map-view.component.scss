@@ -1,10 +1,26 @@
-#map {
-  position: fixed;
-  top: 50px;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  height: calc(var(--vh, 1vh) * 100);
-  width: 100vw;
+.map-view {
+  //height: 86vw;
+  display: flex;
+  overflow: hidden;
 
+  #map {
+    //position: fixed;
+    //top: 7vh;
+    left: 0;
+    right: 0;
+    //bottom: 7vh;
+    height: calc(var(--vh, 1vh) * 86); // todo fluent
+    width: 100vw;
+    overflow: hidden;
+    display: flex;
+  }
+
+  .filter {
+    display: flex;
+    position: absolute;
+    right: 0;
+  }
+
+  p {
+  }
 }

@@ -24,11 +24,9 @@ export class MapViewComponent implements OnInit {
   ngOnInit(): void {
     sessionStorage.setItem('lastPage', this.router.url);
     this.mapService.createMap();
-    this.getGeolocation()
-    this.geoLocation$.subscribe( location => console.log(location))
+    // this.getGeolocation()
+    // this.geoLocation$.subscribe( location => console.log(location))
   }
-
-
 
   getGeolocation() {
     const positionOptions: PositionOptions = {} as PositionOptions;

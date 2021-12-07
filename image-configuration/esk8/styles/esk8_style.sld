@@ -13,7 +13,9 @@
           <Title>gold line</Title>
           <LineSymbolizer>
             <Stroke>
-              <CssParameter name="stroke">#000000</CssParameter>
+              <CssParameter name="stroke">#6d9ae3</CssParameter>
+			  <CssParameter name="stroke-width">5px</CssParameter>
+			  <CssParameter name="stroke-linecap">round</CssParameter>
             </Stroke>
           </LineSymbolizer>
         </Rule>

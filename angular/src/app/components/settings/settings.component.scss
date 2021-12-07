@@ -1,0 +1,6 @@
+.settings {
+  .voice-settings, .notifications, .profile-settings {
+    display: flex;
+    flex-direction: column;
+  }
+}

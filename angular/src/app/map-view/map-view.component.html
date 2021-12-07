@@ -1,2 +1,7 @@
-<p *ngIf="(geoLocation$ | async) as position">{{position.lon}} {{position.lat}}</p>
-<div id="map"></div>
+<div class="map-view">
+<!--  <p *ngIf="(geoLocation$ | async) as position">{{position.lon}} {{position.lat}}</p>-->
+  <div id="map"></div>
+  <div class="filter">
+    <button mat-raised-button>Filter</button>
+  </div>
+</div>

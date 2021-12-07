@@ -1,0 +1,16 @@
+<h1 mat-dialog-title>Let's create a route! Woop!</h1>
+<div mat-dialog-content>
+  <p>Add some info about your lovely board beforehand! (If you want <3)</p>
+  <mat-form-field appearance="fill">
+    <mat-label>Power % left on board</mat-label>
+    <input matInput [(ngModel)]="data.power">
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>Degrees celsius outside</mat-label>
+    <input matInput [(ngModel)]="data.degrees">
+  </mat-form-field>
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="onSkip()">Skip</button>
+  <button mat-button [mat-dialog-close]="data" cdkFocusInitial>Next</button>
+</div>

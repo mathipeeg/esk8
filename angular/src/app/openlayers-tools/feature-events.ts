@@ -56,6 +56,7 @@ export class FeatureEvents {
           .then(text => this.format.readFeatures(text))
           .then(features => {
             if (features && features.length) {
+              console.log(features[0].getId())
               this.featuresSubject.next(features);
             } else {
               this.featuresSubject.next([]);
