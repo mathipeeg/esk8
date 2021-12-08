@@ -15,6 +15,7 @@ import { UserComponent } from './components/user/user.component';
 import { SettingsComponent } from './components/settings/settings.component';
 import {MatSlideToggleModule} from "@angular/material/slide-toggle";
 import {MatSelectModule} from "@angular/material/select";
+import {HttpClientModule} from "@angular/common/http";
 
 @NgModule({
   declarations: [
@@ -36,7 +37,8 @@ import {MatSelectModule} from "@angular/material/select";
     MatInputModule,
     FormsModule,
     MatSlideToggleModule,
-    MatSelectModule
+    MatSelectModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]

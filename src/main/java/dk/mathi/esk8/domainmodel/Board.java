@@ -12,6 +12,9 @@ public class Board {
     @Column(name = "board_id")
     private long id;
 
+    @Column(name = "user_id")
+    private int userId;
+
     @Column(name = "board_type")
     @Enumerated(EnumType.STRING)
     private BoardType boardType;
@@ -44,8 +47,9 @@ public class Board {
     public Board() {
     }
 
-    public Board(long id, BoardType boardType, BoardBrand boardBrand, String nickname, int weight, int length, String motorType, String battery, String note, Byte[] picture) {
+    public Board(long id, int userId, BoardType boardType, BoardBrand boardBrand, String nickname, int weight, int length, String motorType, String battery, String note, Byte[] picture) {
         this.id = id;
+        this.userId = userId;
         this.boardType = boardType;
         this.boardBrand = boardBrand;
         this.nickname = nickname;
@@ -63,6 +67,14 @@ public class Board {
 
     public void setId(long id) {
         this.id = id;
+    }
+
+    public int getUserId() {
+        return userId;
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
     }
 
     public BoardType getBoardType() {
@@ -141,6 +153,7 @@ public class Board {
     public String toString() {
         return "Board{" +
                 "id=" + id +
+                ", userId=" + userId +
                 ", boardType=" + boardType +
                 ", boardBrand=" + boardBrand +
                 ", nickname='" + nickname + '\'' +

@@ -1,0 +1,3 @@
+ROUTE_NOTIFICATION_ID;IS_ON;INTERVAL;AVG_SPEED;DISTANCE;TIME;VOICE_ACTOR
+1;true;10;true;true;true;"Ashcon1"
+2;true;10;true;true;true;"Ashcon2"

@@ -5,5 +5,8 @@ public enum RoadType {
     DIRT,
     GRASS,
     CONCRETE,
-    PATH
+    PATH,
+    TILES,
+    WOOD,
+    MIX
 }

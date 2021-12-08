@@ -11,6 +11,9 @@ public class User {
     @Column(name = "user_id")
     private long id;
 
+    @Column(name = "route_notification_id")
+    private long routeNotificationId;
+
     @Column(name = "email")
     private String email;
 
@@ -30,13 +33,10 @@ public class User {
     @Column(name = "weight")
     private int weight;
 
-    @Column(name = "voice_actor")
-    private String voiceActor;
-
     public User() {
     }
 
-    public User(long id, String email, String password, String name, Gender gender, int height, int weight, String voiceActor) {
+    public User(long id, String email, String password, String name, Gender gender, int height, int weight) {
         this.id = id;
         this.email = email;
         this.password = password;
@@ -44,7 +44,6 @@ public class User {
         this.gender = gender;
         this.height = height;
         this.weight = weight;
-        this.voiceActor = voiceActor;
     }
 
     public long getId() {
@@ -103,14 +102,6 @@ public class User {
         this.weight = weight;
     }
 
-    public String getVoiceActorId() {
-        return voiceActor;
-    }
-
-    public void setVoiceActor(String voiceActor) {
-        this.voiceActor = voiceActor;
-    }
-
     @Override
     public String toString() {
         return "User{" +
@@ -121,7 +112,6 @@ public class User {
                 ", gender=" + gender +
                 ", height=" + height +
                 ", weight=" + weight +
-                ", voiceActorId=" + voiceActor +
                 '}';
     }
 }

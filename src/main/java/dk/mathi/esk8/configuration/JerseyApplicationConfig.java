@@ -1,6 +1,6 @@
 package dk.mathi.esk8.configuration;
 
-import dk.mathi.esk8.webapi.DemoApi;
+import dk.mathi.esk8.webapi.UserApi;
 import org.glassfish.jersey.server.ResourceConfig;
 import org.springframework.stereotype.Component;
 
@@ -10,6 +10,6 @@ import javax.ws.rs.ApplicationPath;
 @ApplicationPath("/rest")
 public class JerseyApplicationConfig extends ResourceConfig {
     public JerseyApplicationConfig() {
-        register(DemoApi.class);
+        register(UserApi.class);
     }
 }
