@@ -37,7 +37,7 @@ export class UserComponent implements OnInit {
       .pipe(
         map(data => {
           // todo sort boards via userID
-        })
+        }) // test
       )
 
   constructor(private router: Router,
