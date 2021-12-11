@@ -1,13 +1,13 @@
 <div class="container" *ngIf="(user$ | async) as user">
   <button mat-raised-button (click)="back()">Back</button>
-  <button mat-raised-button (click)="toSettings()">Settings</button>
+<!--  <button mat-raised-button (click)="toSettings()">Settings</button>-->
   <div class="user-info">
     <button mat-raised-button>Change info</button>
     <h2>{{user.name}}</h2>
     <h3>{{user.email}}</h3>
     <p>{{user.height}}, {{user.weight}}</p>
   </div>
-  <div class="boards" *ngIf="(boards$ | async) as boards">
+  <div class="boards"> <!-- *ngIf="(boards$ | async) as boards" -->
     <h2>Board overview and info.</h2>
     <h3>Board overview and info.</h3>
     <p>Board overview and info.</p>

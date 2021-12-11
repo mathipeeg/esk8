@@ -1,43 +1,37 @@
 package dk.mathi.esk8.webapi;
-import dk.mathi.esk8.domainmodel.Board;
-import dk.mathi.esk8.domainmodel.User;
-import dk.mathi.esk8.repository.BoardRepo;
-import dk.mathi.esk8.repository.UserRepo;
-import dk.mathi.esk8.service.BoardService;
+
+import dk.mathi.esk8.domainmodel.Comment;
+import dk.mathi.esk8.repository.CommentRepo;
+import dk.mathi.esk8.service.CommentService;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.security.RolesAllowed;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.*;
-import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
-import javax.ws.rs.core.SecurityContext;
 import java.util.List;
 
 @Component
-@Path("/boards")
-public class BoardApi {
-    private final BoardRepo boardRepo;
-    private final BoardService boardService;
+@Path("/comments")
+public class CommentApi {
+    private final CommentRepo commentRepo;
+    private final CommentService commentService;
 
-    public BoardApi(BoardRepo boardRepo,
-                    BoardService boardService) {
-        this.boardRepo = boardRepo;
-        this.boardService = boardService;
+    public CommentApi(CommentRepo commentRepo,
+                      CommentService commentService) {
+        this.commentRepo = commentRepo;
+        this.commentService = commentService;
     }
 
     @GET
     @Consumes("application/json")
     @Produces("application/json")
-    @Path("/{boardId}")
-    public Board get(@PathParam("boardId") long boardId) {
+    @Path("/comment/{commentId}")
+    public Comment get(@PathParam("commentId") long commentId) {
         try {
-            Board board = boardRepo.getById(boardId);
-            if (board == null) {
-                throw new Exception("Board is prob null, dude.");
+            Comment comment = commentRepo.getById(commentId);
+            if (comment == null) {
+                throw new Exception("Comment is prob null, dude.");
             }
-            return board;
+            return comment;
         } catch(Exception e) {
             throw new WebApplicationException(Response.Status.INTERNAL_SERVER_ERROR);
         }
@@ -46,14 +40,14 @@ public class BoardApi {
     @GET
     @Consumes("application/json")
     @Produces("application/json")
-    @Path("/all")
-    public List<Board> get() {
+    @Path("/comments/{routeId}")
+    public List<Comment> getByRouteId(@PathParam("routeId") long routeId) {
         try {
-            List<Board> boards = boardRepo.findAll();
-            if (boards.size() == 0) {
-                throw new Exception("No boards found, dude.");
+            List<Comment> comments = commentRepo.findByRouteId(routeId);
+            if (comments.size() == 0) {
+                throw new Exception("No comments found, dude.");
             }
-            return boards;
+            return comments;
         } catch(Exception e) {
             throw new WebApplicationException(Response.Status.INTERNAL_SERVER_ERROR);
         }
@@ -63,9 +57,9 @@ public class BoardApi {
     @Consumes("application/json")
     @Produces("application/json")
     @Path("/create")
-    public Response create(Board board) {
+    public Response create(Comment comment) {
         try {
-            Response response = boardService.create(board);
+            Response response = commentService.create(comment);
             return response;
         } catch(Exception e) {
             throw new WebApplicationException(Response.Status.INTERNAL_SERVER_ERROR);
@@ -76,9 +70,9 @@ public class BoardApi {
 //    @Consumes("application/json")
 //    @Produces("application/json")
     @Path("/update")
-    public Response update(Board board) {
+    public Response update(Comment comment) {
         try {
-            Response response = boardService.update(board);
+            Response response = commentService.update(comment);
             return response;
         } catch(Exception e) {
             throw new WebApplicationException(Response.Status.INTERNAL_SERVER_ERROR);
@@ -90,7 +84,7 @@ public class BoardApi {
     @Path("/{id}")
     public Response delete(@PathParam("id") long id) {
         try {
-            Response response = boardService.delete(id);
+            Response response = commentService.delete(id);
             return response;
         } catch(Exception e) {
             throw new WebApplicationException(Response.Status.INTERNAL_SERVER_ERROR);

@@ -32,23 +32,19 @@ export class UserComponent implements OnInit {
         )
       )
 
-  boards$: Observable<Board[]> =
-    this.esk8Service.boards$
-      .pipe(
-        map(data => {
-          // todo sort boards via userID
-        }) // test
-      )
+  // boards$: Observable<Board[]> =
+  //   this.esk8Service.boards$
+  //     .pipe(
+  //       map(data => {
+  //         // todo sort boards via userID
+  //       }) // test
+  //     )
 
   constructor(private router: Router,
               private location: Location,
               private esk8Service: Esk8Service) { }
 
   ngOnInit(): void {
-  }
-
-  toSettings() {
-    this.router.navigateByUrl('settings');
   }
 
   back() {

@@ -35,6 +35,10 @@ export class NavBarComponent implements OnInit {
   home() {
     this.router.navigateByUrl('');
   }
+
+  toUser() {
+    this.router.navigateByUrl('/user')
+  }
 }
 
 @Component({

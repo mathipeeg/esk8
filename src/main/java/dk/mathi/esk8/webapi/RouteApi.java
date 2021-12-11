@@ -1,43 +1,36 @@
 package dk.mathi.esk8.webapi;
-import dk.mathi.esk8.domainmodel.Board;
-import dk.mathi.esk8.domainmodel.User;
-import dk.mathi.esk8.repository.BoardRepo;
-import dk.mathi.esk8.repository.UserRepo;
-import dk.mathi.esk8.service.BoardService;
+
+import dk.mathi.esk8.domainmodel.Route;
+import dk.mathi.esk8.repository.RouteRepo;
+import dk.mathi.esk8.service.RouteService;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.security.RolesAllowed;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.*;
-import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
-import javax.ws.rs.core.SecurityContext;
 import java.util.List;
 
 @Component
-@Path("/boards")
-public class BoardApi {
-    private final BoardRepo boardRepo;
-    private final BoardService boardService;
+@Path("/routes")
+public class RouteApi {
+    private final RouteRepo routeRepo;
+    private final RouteService routeService;
 
-    public BoardApi(BoardRepo boardRepo,
-                    BoardService boardService) {
-        this.boardRepo = boardRepo;
-        this.boardService = boardService;
+    public RouteApi(RouteRepo routeRepo, RouteService routeService) {
+        this.routeRepo = routeRepo;
+        this.routeService = routeService;
     }
 
     @GET
     @Consumes("application/json")
     @Produces("application/json")
-    @Path("/{boardId}")
-    public Board get(@PathParam("boardId") long boardId) {
+    @Path("/{routeId}")
+    public Route get(@PathParam("routeId") long routeId) {
         try {
-            Board board = boardRepo.getById(boardId);
-            if (board == null) {
-                throw new Exception("Board is prob null, dude.");
+            Route route = routeRepo.getById(routeId);
+            if (route == null) {
+                throw new Exception("Route is prob null, dude.");
             }
-            return board;
+            return route;
         } catch(Exception e) {
             throw new WebApplicationException(Response.Status.INTERNAL_SERVER_ERROR);
         }
@@ -47,13 +40,13 @@ public class BoardApi {
     @Consumes("application/json")
     @Produces("application/json")
     @Path("/all")
-    public List<Board> get() {
+    public List<Route> getAll() {
         try {
-            List<Board> boards = boardRepo.findAll();
-            if (boards.size() == 0) {
-                throw new Exception("No boards found, dude.");
+            List<Route> route = routeRepo.findAll();
+            if (route.size() == 0) {
+                throw new Exception("No routes found, dude.");
             }
-            return boards;
+            return route;
         } catch(Exception e) {
             throw new WebApplicationException(Response.Status.INTERNAL_SERVER_ERROR);
         }
@@ -63,9 +56,9 @@ public class BoardApi {
     @Consumes("application/json")
     @Produces("application/json")
     @Path("/create")
-    public Response create(Board board) {
+    public Response create(Route route) {
         try {
-            Response response = boardService.create(board);
+            Response response = routeService.create(route);
             return response;
         } catch(Exception e) {
             throw new WebApplicationException(Response.Status.INTERNAL_SERVER_ERROR);
@@ -76,9 +69,9 @@ public class BoardApi {
 //    @Consumes("application/json")
 //    @Produces("application/json")
     @Path("/update")
-    public Response update(Board board) {
+    public Response update(Route route) {
         try {
-            Response response = boardService.update(board);
+            Response response = routeService.update(route);
             return response;
         } catch(Exception e) {
             throw new WebApplicationException(Response.Status.INTERNAL_SERVER_ERROR);
@@ -90,7 +83,7 @@ public class BoardApi {
     @Path("/{id}")
     public Response delete(@PathParam("id") long id) {
         try {
-            Response response = boardService.delete(id);
+            Response response = routeService.delete(id);
             return response;
         } catch(Exception e) {
             throw new WebApplicationException(Response.Status.INTERNAL_SERVER_ERROR);

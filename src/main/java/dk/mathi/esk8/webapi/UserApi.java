@@ -1,6 +1,8 @@
 package dk.mathi.esk8.webapi;
+import dk.mathi.esk8.domainmodel.RouteStats;
 import dk.mathi.esk8.domainmodel.User;
 import dk.mathi.esk8.repository.UserRepo;
+import dk.mathi.esk8.service.UserService;
 import org.springframework.stereotype.Component;
 
 import javax.ws.rs.*;
@@ -13,9 +15,12 @@ import java.util.List;
 @Path("/users")
 public class UserApi {
     private final UserRepo userRepo;
+    private final UserService userService;
 
-    public UserApi(UserRepo userRepo) {
+    public UserApi(UserRepo userRepo,
+                   UserService userService) {
         this.userRepo = userRepo;
+        this.userService = userService;
     }
 
     @GET
@@ -45,6 +50,44 @@ public class UserApi {
                 throw new Exception("No users found, dude.");
             }
             return users;
+        } catch(Exception e) {
+            throw new WebApplicationException(Response.Status.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @POST
+    @Consumes("application/json")
+    @Produces("application/json")
+    @Path("/create")
+    public Response create(User user) {
+        try {
+            Response response = userService.create(user);
+            return response;
+        } catch(Exception e) {
+            throw new WebApplicationException(Response.Status.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @PUT
+//    @Consumes("application/json")
+//    @Produces("application/json")
+    @Path("/update")
+    public Response update(User user) {
+        try {
+            Response response = userService.update(user);
+            return response;
+        } catch(Exception e) {
+            throw new WebApplicationException(Response.Status.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @DELETE
+    @Consumes("application/json")
+    @Path("/{id}")
+    public Response delete(@PathParam("id") long id) {
+        try {
+            Response response = userService.delete(id);
+            return response;
         } catch(Exception e) {
             throw new WebApplicationException(Response.Status.INTERNAL_SERVER_ERROR);
         }

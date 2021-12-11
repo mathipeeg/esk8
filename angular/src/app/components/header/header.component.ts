@@ -13,7 +13,7 @@ export class HeaderComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  toUser() {
-    this.router.navigateByUrl('/user')
+  toSettings() {
+    this.router.navigateByUrl('settings');
   }
 }
