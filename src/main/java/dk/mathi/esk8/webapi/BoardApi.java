@@ -1,22 +1,18 @@
 package dk.mathi.esk8.webapi;
 import dk.mathi.esk8.domainmodel.Board;
-import dk.mathi.esk8.domainmodel.User;
 import dk.mathi.esk8.repository.BoardRepo;
-import dk.mathi.esk8.repository.UserRepo;
 import dk.mathi.esk8.service.BoardService;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.security.PermitAll;
 import javax.annotation.security.RolesAllowed;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.*;
-import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
-import javax.ws.rs.core.SecurityContext;
 import java.util.List;
 
 @Component
 @Path("/boards")
+@PermitAll
 public class BoardApi {
     private final BoardRepo boardRepo;
     private final BoardService boardService;
@@ -47,6 +43,8 @@ public class BoardApi {
     @Consumes("application/json")
     @Produces("application/json")
     @Path("/all")
+    @RolesAllowed("esk8-user")
+    // TODO Grand: Should the path be "/boards/all", you've used "/routes" to get all in RouteApi
     public List<Board> get() {
         try {
             List<Board> boards = boardRepo.findAll();

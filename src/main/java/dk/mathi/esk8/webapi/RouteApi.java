@@ -6,12 +6,15 @@ import dk.mathi.esk8.service.RouteService;
 import org.geolatte.geom.LineString;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.security.PermitAll;
+import javax.annotation.security.RolesAllowed;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
 import java.util.List;
 
 @Component
 @Path("/routes")
+@PermitAll
 public class RouteApi {
     private final RouteRepo routeRepo;
     private final RouteService routeService;

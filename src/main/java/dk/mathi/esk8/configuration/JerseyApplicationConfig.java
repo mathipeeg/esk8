@@ -2,6 +2,7 @@ package dk.mathi.esk8.configuration;
 
 import dk.mathi.esk8.webapi.*;
 import org.glassfish.jersey.server.ResourceConfig;
+import org.glassfish.jersey.server.filter.RolesAllowedDynamicFeature;
 import org.springframework.stereotype.Component;
 
 import javax.ws.rs.ApplicationPath;
@@ -16,5 +17,6 @@ public class JerseyApplicationConfig extends ResourceConfig {
         register(RouteApi.class);
         register(RouteNotificationApi.class);
         register(RouteStatsApi.class);
+        register(RolesAllowedDynamicFeature.class);
     }
 }

@@ -36,9 +36,13 @@
     <button mat-raised-button>Change e-mail</button>
     <button mat-raised-button>Change username</button>
     <mat-slide-toggle>Use kilometres vs. miles</mat-slide-toggle>
-    <button mat-raised-button>Log out</button>
+    <button mat-raised-button (click)="login()">Log out</button>
   </div>
 
+  <li *ngIf="this.boardService.boards$ | async as board">
+    <p>{{board[0].nickname}}</p>
+    <p>{{board[0].boardBrand}}</p>
+  </li>
 
 <!--  Notifikationer?-->
 <!--  Profilindstillinger:-->

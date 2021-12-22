@@ -3,6 +3,7 @@ import {catchError, combineLatest, EMPTY, Observable, of, retry, shareReplay, sw
 import {Board} from "../models";
 import {HttpClient} from "@angular/common/http";
 import {Esk8Service} from "./esk8.service";
+import {AuthenticationService} from "./authentication.service";
 
 @Injectable({
   providedIn: 'root'
@@ -13,10 +14,11 @@ export class BoardService {
   readonly userBoards$: Observable<Board[]>;
 
   constructor(private readonly http: HttpClient,
-              private esk8Service: Esk8Service) {
+              private esk8Service: Esk8Service,
+              private authenticationService: AuthenticationService) {
     this.boards$ = timer(0, 5000)
       .pipe(
-        switchMap(() => this.http.get<Board[]>(`${this.baseUrl}/boards/all`) // todo med id
+        switchMap(() => this.http.get<Board[]>(`${this.baseUrl}/boards/all`, {headers: this.authenticationService.getAccessToken()}) // todo med id
           .pipe(catchError((error) => {
             console.log(error)
             return EMPTY;

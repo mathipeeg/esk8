@@ -95,6 +95,14 @@ export class User {
   weight: number;
 }
 
+export class User1 {
+  referenceKey: string;
+  username: string;
+  email: string;
+  name: string;
+  lastname: string;
+}
+
 export class LonLat {
   lon: number;
   lat: number;
