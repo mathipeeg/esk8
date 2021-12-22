@@ -67,7 +67,7 @@ public class RouteNotification {
         this.interval = interval;
     }
 
-    public boolean isAvgSpeed() {
+    public boolean getAvgSpeed() {
         return avgSpeed;
     }
 

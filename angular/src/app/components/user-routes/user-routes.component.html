@@ -1,0 +1,5 @@
+<div class="boards"*ngIf="(routes$ | async) as routes">
+<div *ngFor="let route of routes"> <!-- todo: this takes aGES bc of the points-->
+  <p>{{route.name}}</p>
+</div>
+</div>

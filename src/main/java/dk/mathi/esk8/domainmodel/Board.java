@@ -42,12 +42,12 @@ public class Board {
     private String note;
 
     @Column(name = "picture")
-    private Byte[] picture;
+    private byte[] picture;
 
     public Board() {
     }
 
-    public Board(long id, int userId, BoardType boardType, BoardBrand boardBrand, String nickname, int weight, int length, String motorType, String battery, String note, Byte[] picture) {
+    public Board(long id, int userId, BoardType boardType, BoardBrand boardBrand, String nickname, int weight, int length, String motorType, String battery, String note, byte[] picture) {
         this.id = id;
         this.userId = userId;
         this.boardType = boardType;
@@ -141,11 +141,11 @@ public class Board {
         this.note = note;
     }
 
-    public Byte[] getPicture() {
+    public byte[] getPicture() {
         return picture;
     }
 
-    public void setPicture(Byte[] picture) {
+    public void setPicture(byte[] picture) {
         this.picture = picture;
     }
 

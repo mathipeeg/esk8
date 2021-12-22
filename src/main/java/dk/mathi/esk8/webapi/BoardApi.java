@@ -59,6 +59,22 @@ public class BoardApi {
         }
     }
 
+    @GET
+    @Consumes("application/json")
+    @Produces("application/json")
+    @Path("/all/{id}")
+    public List<Board> getByUserId(@PathParam("id") long userId) {
+        try {
+            List<Board> boards = boardRepo.findBoardsByUserId(userId);
+            if (boards.size() == 0) {
+                throw new Exception("No boards found, dude.");
+            }
+            return boards;
+        } catch(Exception e) {
+            throw new WebApplicationException(Response.Status.INTERNAL_SERVER_ERROR);
+        }
+    }
+
     @POST
     @Consumes("application/json")
     @Produces("application/json")

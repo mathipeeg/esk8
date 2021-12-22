@@ -7,11 +7,19 @@
     <h3>{{user.email}}</h3>
     <p>{{user.height}}, {{user.weight}}</p>
   </div>
-  <div class="boards"> <!-- *ngIf="(boards$ | async) as boards" -->
-    <h2>Board overview and info.</h2>
-    <h3>Board overview and info.</h3>
-    <p>Board overview and info.</p>
-    <button mat-raised-button>Add board</button>
-    <button mat-raised-button>Edit board</button>
+  <div class="boards"*ngIf="(boards$ | async) as boards"> <!-- *ngIf="(boards$ | async) as boards" -->
+    <div *ngFor="let board of boards">
+      <h2>Boards</h2>
+      <h3>{{board.nickname}}</h3>
+      <p>{{board.weight}}</p>
+      <p>{{board.length}}</p>
+      <p>{{board.motorType}}</p>
+      <p>{{board.battery}}</p>
+      <p>{{board.note}}</p>
+      <hr/>
+      <button mat-raised-button>Edit board</button>
+    </div>
   </div>
+  <button mat-raised-button (click)="addBoard()">Add board</button>
+  <button mat-raised-button (click)="viewRoutesList()">View your routes</button>
 </div>

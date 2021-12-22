@@ -24,6 +24,22 @@ public class CommentApi {
     @GET
     @Consumes("application/json")
     @Produces("application/json")
+    @Path("/comment/all")
+    public List<Comment> getAll() {
+        try {
+            List<Comment> comments = commentRepo.findAll();
+            if (comments == null) {
+                throw new Exception("Comment is prob null, dude.");
+            }
+            return comments;
+        } catch(Exception e) {
+            throw new WebApplicationException(Response.Status.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GET
+    @Consumes("application/json")
+    @Produces("application/json")
     @Path("/comment/{commentId}")
     public Comment get(@PathParam("commentId") long commentId) {
         try {

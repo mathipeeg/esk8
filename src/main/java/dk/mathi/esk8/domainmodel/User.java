@@ -7,7 +7,7 @@ import javax.persistence.*;
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.TABLE, generator = "USERS.USER_ID")
-    @TableGenerator(name = "USER.USER_ID", table = "DATABASE_SEQUENCE", pkColumnName = "SEQUENCE_NAME", pkColumnValue = "USER_ID", valueColumnName = "NEXT_AVAILABLE_ID", allocationSize = 1)
+    @TableGenerator(name = "USERS.USER_ID", table = "DATABASE_SEQUENCE", pkColumnName = "SEQUENCE_NAME", pkColumnValue = "USER_ID", valueColumnName = "NEXT_AVAILABLE_ID", allocationSize = 1)
     @Column(name = "user_id")
     private long id;
 
@@ -36,8 +36,9 @@ public class User {
     public User() {
     }
 
-    public User(long id, String email, String password, String name, Gender gender, int height, int weight) {
+    public User(long id, long routeNotificationId, String email, String password, String name, Gender gender, int height, int weight) {
         this.id = id;
+        this.routeNotificationId = routeNotificationId;
         this.email = email;
         this.password = password;
         this.name = name;
@@ -52,6 +53,14 @@ public class User {
 
     public void setId(long id) {
         this.id = id;
+    }
+
+    public long getRouteNotificationId() {
+        return routeNotificationId;
+    }
+
+    public void setRouteNotificationId(long routeNotificationId) {
+        this.routeNotificationId = routeNotificationId;
     }
 
     public String getEmail() {

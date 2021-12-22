@@ -1,15 +1,24 @@
 import {Byte} from "@angular/compiler/src/util";
 import {Timestamp} from "rxjs";
-import {Geometry} from "ol/geom";
+import {Geometry, LineString} from "ol/geom";
 
 export interface GeoLocation {
   lon: number;
   lat: number;
 }
 
-export class DialogData {
+export class StartRouteData {
   power: number | undefined;
   degrees: number | undefined;
+}
+
+export class EndRouteData {
+  name: string;
+  picture: Byte[];
+  rating: number;
+  note: string;
+  category: Category;
+  terrain: RoadType;
 }
 
 export type BoardBrand = 'Meepo' | 'Landyachtz' | 'WowGo' | 'Homemade';
@@ -65,12 +74,14 @@ export class RouteStat {
 export class Route {
   id: number;
   userId: number;
+  name: string;
   roadType: RoadType;
   category: Category;
   length: number;
   rating: number;
   note: string;
-  geometry: Geometry;
+  geometry: LineString;
+  picture: Byte[];
 }
 
 export class User {
@@ -82,4 +93,9 @@ export class User {
   gender: Gender;
   height: number;
   weight: number;
+}
+
+export class LonLat {
+  lon: number;
+  lat: number;
 }

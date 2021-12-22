@@ -1,0 +1,40 @@
+<h1 mat-dialog-title>Let's create a route! Woop!</h1>
+<div mat-dialog-content>
+  <p>Add some info about your lovely board beforehand! (If you want <3)</p>
+<!--  <mat-form-field appearance="fill">-->
+<!--    <mat-label>Picture</mat-label>-->
+<!--    <input matInput [(ngModel)]="data.picture">-->
+<!--  </mat-form-field>-->
+  <mat-form-field appearance="fill">
+    <mat-label>Name</mat-label>
+    <input matInput [(ngModel)]="data.name">
+  </mat-form-field>
+  <mat-form-field appearance="fill">
+    <mat-label>Rating</mat-label>
+    <input matInput [(ngModel)]="data.rating">
+  </mat-form-field>
+  <mat-form-field appearance="fill">
+    <mat-label>Note</mat-label>
+    <input matInput [(ngModel)]="data.note">
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>Category</mat-label>
+    <mat-select [(ngModel)]="data.category">
+      <mat-option *ngFor="let cat of category" [value]="cat">
+        {{cat}}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>Terrain</mat-label>
+    <mat-select [(ngModel)]="data.terrain">
+      <mat-option *ngFor="let terrain of roadType" [value]="terrain">
+        {{terrain}}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="onSkip()">Cancel</button>
+  <button mat-button [mat-dialog-close]="data" cdkFocusInitial>Submit route</button>
+</div>

@@ -1,4 +1,4 @@
-import { Options, optionsFromCapabilities } from 'ol/source/WMTS';
+  import { Options, optionsFromCapabilities } from 'ol/source/WMTS';
 import { from, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { WMTSCapabilities } from 'ol/format';

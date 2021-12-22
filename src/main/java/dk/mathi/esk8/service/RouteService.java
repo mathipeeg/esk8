@@ -36,7 +36,7 @@ public class RouteService {
 //      return Response.status(Response.Status.NO_CONTENT).entity(null).build();
 //    }
     routeRepo.deleteById(id);
-    return Response.status(Response.Status.GONE).entity(id).build(); // gone?
+    return Response.status(Response.Status.OK).entity(id).build(); // gone?
   }
 
 }

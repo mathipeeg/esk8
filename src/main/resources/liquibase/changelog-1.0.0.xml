@@ -133,6 +133,9 @@
             <column name="USER_ID" type="int">
                 <constraints nullable="false" foreignKeyName="FK_ROUTE__USER" referencedTableName="USERS" referencedColumnNames="USER_ID"/>
             </column>
+            <column name="NAME" type="varchar(128)">
+                <constraints nullable="false" />
+            </column>
             <column name="ROAD_TYPE" type="varchar(128)">
                 <constraints nullable="false" />
             </column>

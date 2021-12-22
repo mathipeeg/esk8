@@ -1,6 +1,7 @@
 package dk.mathi.esk8.domainmodel;
 
-import org.locationtech.jts.geom.LineString;
+
+import org.postgis.LineString;
 
 import javax.persistence.*;
 
@@ -15,6 +16,9 @@ public class Route {
 
     @Column(name = "user_id")
     private int userId;
+
+    @Column(name = "name")
+    private String name;
 
     @Column(name = "road_type")
     @Enumerated(EnumType.STRING)
@@ -39,9 +43,10 @@ public class Route {
     public Route() {
     }
 
-    public Route(long id, int userId, RoadType roadType, Category category, int length, int rating, String note, LineString geometry) {
+    public Route(long id, int userId, String name, RoadType roadType, Category category, int length, int rating, String note, LineString geometry) {
         this.id = id;
         this.userId = userId;
+        this.name = name;
         this.roadType = roadType;
         this.category = category;
         this.length = length;
@@ -64,6 +69,14 @@ public class Route {
 
     public void setUserId(int userId) {
         this.userId = userId;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public RoadType getRoadType() {
