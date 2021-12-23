@@ -80,7 +80,7 @@ export class Route {
   length: number;
   rating: number;
   note: string;
-  geometry: LineString;
+  wkt?: string;
   picture: Byte[];
 }
 

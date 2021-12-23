@@ -11,8 +11,8 @@ export class RouteService {
 
   constructor(private readonly http: HttpClient) { }
 
-  addRoute(route: Route): Observable<Route | undefined> {
-    return this.http.post<Route>(`${this.baseUrl}/routes/createRoute`, route)
+  addRoute(route: Route, coords: string): Observable<Route | undefined> {
+    return this.http.post<Route>(`${this.baseUrl}/routes/createRoute?coords=${coords}`, route)
       .pipe(
         catchError(this.handleError(`post ${this.baseUrl}.json`, undefined))
       );

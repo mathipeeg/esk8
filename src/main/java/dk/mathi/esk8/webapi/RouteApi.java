@@ -3,9 +3,14 @@ package dk.mathi.esk8.webapi;
 import dk.mathi.esk8.domainmodel.Route;
 import dk.mathi.esk8.repository.RouteRepo;
 import dk.mathi.esk8.service.RouteService;
-import org.geolatte.geom.LineString;
+import org.locationtech.jts.geom.Coordinate;
+import org.locationtech.jts.geom.Geometry;
+import org.locationtech.jts.geom.GeometryFactory;
+import org.locationtech.jts.geom.LineString;
+import org.locationtech.jts.io.WKTReader;
 import org.springframework.stereotype.Component;
 
+import javax.inject.Inject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
 import java.util.List;
@@ -15,10 +20,13 @@ import java.util.List;
 public class RouteApi {
     private final RouteRepo routeRepo;
     private final RouteService routeService;
+    private final GeometryFactory geometryFactory;
 
+    @Inject
     public RouteApi(RouteRepo routeRepo, RouteService routeService) {
         this.routeRepo = routeRepo;
         this.routeService = routeService;
+        this.geometryFactory= new GeometryFactory();
     }
 
     @GET
@@ -89,14 +97,17 @@ public class RouteApi {
     @Consumes("application/json")
     @Produces("application/json")
     @Path("/createRoute")
-    public Response createRoute(Route route) {
+    public Response createRoute(Route route, @QueryParam("coords") String coords) {
         try {
-            System.out.println("test");
-            System.out.println(route.getName());
-//            System.out.println(route.getGeometry().getGeometryType());
-//            System.out.println(route.getGeometry());
-//            Response response = routeService.create(route);
+            System.out.println(coords);
+//            String t2 = "SRID=4326;LINESTRING(40 50, 60 70)";
+//            System.out.println(test2);
 
+//            LineString lineString = geometryFactory.createLineString(t);
+//            test.setSRID(4326);
+//            System.out.println(test);
+            route.setGeometry(coords);
+            Response response = routeService.create(route);
             return null;
         } catch(Exception e) {
             throw new WebApplicationException(Response.Status.INTERNAL_SERVER_ERROR);

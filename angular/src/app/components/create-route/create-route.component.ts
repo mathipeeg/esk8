@@ -19,7 +19,7 @@ export class CreateRouteComponent implements OnInit {
   degrees: number | undefined;
   newRoute: boolean = false;
   // test: LineString = Position;
-  newRouteCoords: [[number, number]] = [[0,0]];
+  newRouteCoords: string = '';
 
   constructor(public dialog: MatDialog,
               private mapService: MapService,
@@ -51,7 +51,7 @@ export class CreateRouteComponent implements OnInit {
 
   stopRoute() {
     this.newRoute = false;
-    this.newRouteCoords.shift();
+    // this.newRouteCoords.shift();
     console.log(this.newRouteCoords)
     this.endRoute();
   }
@@ -73,10 +73,12 @@ export class CreateRouteComponent implements OnInit {
       route.note = result.note;
       route.roadType = result.terrain;
       route.picture = [0];
-      const ls = new LineString(this.newRouteCoords);
-      console.log(ls)
-      route.geometry = ls;
-      this.routeService.addRoute(route).subscribe((e)=> console.log(e));
+      route.userId = 1;
+      console.log(this.newRouteCoords)
+      let coords = this.newRouteCoords.substring(0, this.newRouteCoords.length - 2)
+      const wkt = 'SRID=4326;LINESTRING(' + coords + ')'
+      this.routeService.addRoute(route, wkt).subscribe((e)=> console.log(e));
+      this.newRouteCoords = ''; // todo find better way to do this
     });
   }
 
@@ -86,10 +88,11 @@ export class CreateRouteComponent implements OnInit {
         map( (coords: GeoLocation) => {
           if (this.newRoute) {
             // save location to db.
-            let coord: Coordinate = [coords.lon, coords.lat];
+            // let coord: Coordinate = [coords.lon, coords.lat];
             // console.log(this.test)
             // this.test.appendCoordinate(coord);
-            this.newRouteCoords.push([coords.lon, coords.lat]);
+            console.log(coords)
+            this.newRouteCoords = this.newRouteCoords + coords.lon.toString() + ' ' + coords.lat.toString() + ', ';
             // set center in service.
             this.mapService.setCenterOnMap([coords.lon, coords.lat]);
             console.log(this.newRouteCoords) // todo check why 0,0 isn't there?
