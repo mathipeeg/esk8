@@ -11,22 +11,22 @@ import org.locationtech.jts.io.WKTReader;
 import org.springframework.stereotype.Component;
 
 import javax.inject.Inject;
+import javax.annotation.security.PermitAll;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
 import java.util.List;
 
 @Component
 @Path("/routes")
+@PermitAll
 public class RouteApi {
     private final RouteRepo routeRepo;
     private final RouteService routeService;
-    private final GeometryFactory geometryFactory;
 
     @Inject
     public RouteApi(RouteRepo routeRepo, RouteService routeService) {
         this.routeRepo = routeRepo;
         this.routeService = routeService;
-        this.geometryFactory= new GeometryFactory();
     }
 
     @GET
@@ -100,15 +100,16 @@ public class RouteApi {
     public Response createRoute(Route route, @QueryParam("coords") String coords) {
         try {
             System.out.println(coords);
-//            String t2 = "SRID=4326;LINESTRING(40 50, 60 70)";
-//            System.out.println(test2);
-
-//            LineString lineString = geometryFactory.createLineString(t);
-//            test.setSRID(4326);
-//            System.out.println(test);
-            route.setGeometry(coords);
+            WKTReader wktr = new WKTReader();
+//            String t1 = "SRID=4326;LINESTRING(10 10, 40 40, 60 60)";
+//            String t2 = "LINESTRING(10 10, 40 40, 60 60)";
+            System.out.println("id: " + route.getId());
+            LineString wtest = (LineString) (wktr.read(coords));
+            wtest.setSRID(4326);
+            System.out.println("the one? " + wtest);
+            route.setGeometry(wtest);
             Response response = routeService.create(route);
-            return null;
+            return response;
         } catch(Exception e) {
             throw new WebApplicationException(Response.Status.INTERNAL_SERVER_ERROR);
         }

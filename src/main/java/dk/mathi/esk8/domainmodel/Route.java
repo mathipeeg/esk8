@@ -1,7 +1,6 @@
 package dk.mathi.esk8.domainmodel;
 
-
-import org.postgis.LineString;
+import org.locationtech.jts.geom.LineString;
 
 import javax.persistence.*;
 

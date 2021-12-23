@@ -100,13 +100,7 @@
             <column name="ROUTE_NOTIFICATION_ID" type="int">
                 <constraints nullable="false" foreignKeyName="FK_USER__ROUTE_NOTIFICATION" referencedTableName="ROUTE_NOTIFICATION" referencedColumnNames="ROUTE_NOTIFICATION_ID"/>
             </column>
-            <column name="EMAIL" type="varchar(128)">
-                <constraints nullable="false" />
-            </column>
-            <column name="PASSWORD" type="varchar(128)">
-                <constraints nullable="false" />
-            </column>
-            <column name="NAME" type="varchar(128)">
+            <column name="REF_KEY" type="varchar(128)">
                 <constraints nullable="false" />
             </column>
             <column name="GENDER" type="varchar(128)">

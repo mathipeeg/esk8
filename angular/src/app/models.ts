@@ -88,11 +88,28 @@ export class User {
   id: number;
   routeNotificationId: number;
   email: string;
-  password: string; // ?
-  name: string;
+  firstName: string;
+  lastName: string;
+  username: string;
   gender: Gender;
   height: number;
   weight: number;
+}
+
+export class UserDb {
+  id: number;
+  routeNotificationId: number;
+  gender: Gender;
+  height: number;
+  weight: number;
+}
+
+export class LoginUser {
+  referenceKey: string;
+  username: string;
+  email: string;
+  name: string;
+  lastname: string;
 }
 
 export class LonLat {

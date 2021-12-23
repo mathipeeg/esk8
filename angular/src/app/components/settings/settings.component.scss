@@ -1,4 +1,8 @@
+@import "src/styles.scss";
+
 .settings {
+  height: $content-height;
+  overflow: scroll;
   .voice-settings, .notifications, .profile-settings {
     display: flex;
     flex-direction: column;

@@ -1,9 +1,11 @@
+@import "src/styles.scss";
+
 .container {
   display: flex;
   flex-direction: column;
 
   .header, .content, .nav-bar {
-    display: flex;
+    //display: flex;
   }
 
   .header {
@@ -13,7 +15,7 @@
   }
 
   .content {
-    height: 86vh;
+    height: $content-height;
   }
 
   .nav-bar {

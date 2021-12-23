@@ -5,6 +5,7 @@ import dk.mathi.esk8.repository.UserRepo;
 import dk.mathi.esk8.service.UserService;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.security.RolesAllowed;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
@@ -26,10 +27,11 @@ public class UserApi {
     @GET
     @Consumes("application/json")
     @Produces("application/json")
-    @Path("/{userId}")
-    public User get(@PathParam("userId") long userId) {
+    @Path("/{userRefKey}")
+    @RolesAllowed({"esk8-user", "esk8-admin"})
+    public User get(@PathParam("userRefKey") String userRefKey) {
         try {
-            User user = userRepo.getById(userId);
+            User user = userRepo.getByReferenceKey(userRefKey);
             if (user == null) {
                 throw new Exception("User is prob null, dude.");
             }
@@ -71,6 +73,7 @@ public class UserApi {
     @PUT
 //    @Consumes("application/json")
 //    @Produces("application/json")
+//    @RolesAllowed("esk8-user")
     @Path("/update")
     public Response update(User user) {
         try {

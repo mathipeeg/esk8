@@ -40,7 +40,7 @@ export class MapService {
   private wmsSource: TileWMS;
   private olMap: Map;
 
-  private url: string = "http://10.0.4.119:8081/geoserver/esk8/wms?"
+  private url: string = "http://localhost:8081/geoserver/esk8/wms?"
 
   iconSource = new VectorSource();
   iconLayer = new VectorLayer({source: this.iconSource});

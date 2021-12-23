@@ -18,7 +18,6 @@ export class CreateRouteComponent implements OnInit {
   power: number | undefined;
   degrees: number | undefined;
   newRoute: boolean = false;
-  // test: LineString = Position;
   newRouteCoords: string = '';
 
   constructor(public dialog: MatDialog,
@@ -76,7 +75,7 @@ export class CreateRouteComponent implements OnInit {
       route.userId = 1;
       console.log(this.newRouteCoords)
       let coords = this.newRouteCoords.substring(0, this.newRouteCoords.length - 2)
-      const wkt = 'SRID=4326;LINESTRING(' + coords + ')'
+      const wkt = 'LINESTRING(' + coords + ')'
       this.routeService.addRoute(route, wkt).subscribe((e)=> console.log(e));
       this.newRouteCoords = ''; // todo find better way to do this
     });

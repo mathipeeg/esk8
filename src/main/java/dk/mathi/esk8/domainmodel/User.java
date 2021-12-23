@@ -14,14 +14,8 @@ public class User {
     @Column(name = "route_notification_id")
     private long routeNotificationId;
 
-    @Column(name = "email")
-    private String email;
-
-    @Column(name = "password")
-    private String password;
-
-    @Column(name = "name")
-    private String name;
+    @Column(name = "ref_key")
+    private String referenceKey;
 
     @Column(name = "gender")
     @Enumerated(EnumType.STRING)
@@ -36,12 +30,10 @@ public class User {
     public User() {
     }
 
-    public User(long id, long routeNotificationId, String email, String password, String name, Gender gender, int height, int weight) {
+    public User(long id, long routeNotificationId, String referenceKey, Gender gender, int height, int weight) {
         this.id = id;
         this.routeNotificationId = routeNotificationId;
-        this.email = email;
-        this.password = password;
-        this.name = name;
+        this.referenceKey = referenceKey;
         this.gender = gender;
         this.height = height;
         this.weight = weight;
@@ -63,28 +55,12 @@ public class User {
         this.routeNotificationId = routeNotificationId;
     }
 
-    public String getEmail() {
-        return email;
+    public String getReferenceKey() {
+        return referenceKey;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
+    public void setReferenceKey(String referenceKey) {
+        this.referenceKey = referenceKey;
     }
 
     public Gender getGender() {
@@ -115,9 +91,8 @@ public class User {
     public String toString() {
         return "User{" +
                 "id=" + id +
-                ", email='" + email + '\'' +
-                ", password='" + password + '\'' +
-                ", name='" + name + '\'' +
+                ", routeNotificationId=" + routeNotificationId +
+                ", referenceKey=" + referenceKey +
                 ", gender=" + gender +
                 ", height=" + height +
                 ", weight=" + weight +

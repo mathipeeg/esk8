@@ -19,6 +19,7 @@ import {HttpClientModule} from "@angular/common/http";
 import { UserRoutesComponent } from './components/user-routes/user-routes.component';
 import { CreateRouteComponent } from './components/create-route/create-route.component';
 import {NavBarComponent} from "./components/nav-bar/nav-bar.component";
+import {AuthConfigModule} from "./auth/auth-config.module";
 
 @NgModule({
   declarations: [
@@ -45,6 +46,7 @@ import {NavBarComponent} from "./components/nav-bar/nav-bar.component";
     FormsModule,
     MatSlideToggleModule,
     MatSelectModule,
+    AuthConfigModule,
     HttpClientModule
   ],
   providers: [],

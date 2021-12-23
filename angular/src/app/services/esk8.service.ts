@@ -12,9 +12,10 @@ import {
   switchMap,
   timer
 } from "rxjs";
-import {Board, GeoLocation, LonLat, Route, User} from "../models";
+import {Board, GeoLocation, LonLat, Route, User, UserDb} from "../models";
 import {HttpClient} from "@angular/common/http";
 import {map} from "rxjs/operators";
+import {AuthenticationService} from "./authentication.service";
 
 @Injectable({
   providedIn: 'root'
@@ -22,6 +23,7 @@ import {map} from "rxjs/operators";
 export class Esk8Service {
   private readonly baseUrl: string = '/rest';
   readonly users$: Observable<User[]>;
+  readonly currentUser$: Observable<UserDb>;
   readonly userRoutes$: Observable<Route[]>;
 
   private readonly geoLocationSubject = new ReplaySubject<GeoLocation>(1);
@@ -31,13 +33,25 @@ export class Esk8Service {
 
   public readonly userIdSubject = new ReplaySubject<number>(1); // triggers selectedLocation$, selectedRoute$, routes$
 
-  constructor(private readonly http: HttpClient) {
+  constructor(private readonly http: HttpClient,
+              private authenticationService: AuthenticationService) {
     this.userIdSubject.next(1);
 
     this.users$ = timer(0, 5000)
       .pipe(
         switchMap(() => this.http.get<User[]>(`${this.baseUrl}/users/all`) // todo also med id
           .pipe(catchError((error) => {
+            return EMPTY;
+          }))),
+        retry(1),
+        shareReplay(1)
+      );
+
+    this.currentUser$ = combineLatest([this.authenticationService.currentUser$])
+      .pipe(
+        switchMap(([currentUser]) => this.http.get<UserDb>(`${this.baseUrl}/users/${currentUser.referenceKey}`) // todo med id
+          .pipe(catchError((error) => {
+            console.log(error)
             return EMPTY;
           }))),
         retry(1),
