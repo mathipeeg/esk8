@@ -1,5 +1,9 @@
 <div class="boards"*ngIf="(routes$ | async) as routes">
 <div *ngFor="let route of routes"> <!-- todo: this takes aGES bc of the points-->
-  <p>{{route.name}}</p>
+  <div>
+    <h2>{{route.name}}</h2>
+    <button mat-raised-button (click)="deleteRoute(route.id)">Delete route</button>
+    <button mat-raised-button (click)="editRoute()">Edit route</button>
+  </div>
 </div>
 </div>

@@ -12,6 +12,8 @@ import org.springframework.stereotype.Component;
 
 import javax.inject.Inject;
 import javax.annotation.security.PermitAll;
+import javax.persistence.FetchType;
+import javax.persistence.ManyToMany;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
 import java.util.List;
@@ -82,8 +84,8 @@ public class RouteApi {
     @Path("/all/{id}")
     public List<Route> findRoutesByUserId(@PathParam("id") long userId) {
         try {
+            System.out.println(userId);
             List<Route> routes = routeRepo.findRoutesByUserId(userId);
-            System.out.println(routes);
             if (routes.size() == 0) {
                 throw new Exception("No routes found, dude.");
             }

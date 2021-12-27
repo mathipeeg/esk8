@@ -148,8 +148,8 @@ export class MapService {
         anchor: [0, 0],
         // anchorXUnits: IconAnchorUnits.FRACTION,
         // anchorYUnits: IconAnchorUnits.FRACTION,
-        src: `assets/fish.png`,
-        scale: 0.05
+        src: `assets/map_marker.png`,
+        scale: 0.8
       })
     });
     iconFeature.setStyle(iconStyle);
@@ -166,7 +166,7 @@ export class MapService {
     } while (currentDate - date < milliseconds);
   }
 
-  getGeolocation() { // todo doesn't get them QUITE right
+  getGeolocation() {
     const positionOptions: PositionOptions = {} as PositionOptions;
     positionOptions.enableHighAccuracy = true;
     // Navigator fås fra "Window" objekt der repræsentere browsing contexten, "Navigatoren" repræsenterer bruger oplysninger.

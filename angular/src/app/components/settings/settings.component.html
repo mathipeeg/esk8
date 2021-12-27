@@ -1,10 +1,10 @@
 <div class="settings">
   <button mat-raised-button (click)="back()">Back</button>
-  <div class="voice-settings">
+  <div class="voice-settings" *ngIf="(notificationSettings$ | async) as nsets">
     <h2>Voice settings</h2>
     <mat-form-field appearance="fill">
-      <mat-label>Choose an interval</mat-label>
-      <mat-select> <!-- [disabled]="disableSelect.value" for disabled (the one already chosen)-->
+      <mat-label></mat-label>
+      <mat-select value="{{nsets.interval}}"> <!-- [disabled]="disableSelect.value" for disabled (the one already chosen)-->
         <mat-option value="10">10 minutes</mat-option>
         <mat-option value="20">20 minutes</mat-option>
         <mat-option value="30">30 minutes</mat-option>
@@ -12,30 +12,30 @@
     </mat-form-field>
     <mat-form-field appearance="fill">
       <mat-label>Choose a voice</mat-label>
-      <mat-select> <!-- [disabled]="disableSelect.value" for disabled (the one already chosen)-->
-        <mat-option value="female">Female</mat-option>
-        <mat-option value="ashcon-1">Ashcon 1</mat-option>
-        <mat-option value="ashcon-2">Ashcon 2</mat-option>
+      <mat-select value="{{nsets.voiceActor}}"> <!-- [disabled]="disableSelect.value" for disabled (the one already chosen)-->
+        <mat-option value="FEMALE">Female</mat-option>
+        <mat-option value="ASHCON1">Ashcon 1</mat-option>
+        <mat-option value="ASHCON2">Ashcon 2</mat-option>
       </mat-select>
     </mat-form-field>
-    <mat-slide-toggle>On/Off</mat-slide-toggle>
-    <mat-slide-toggle>Avg. speed</mat-slide-toggle>
-    <mat-slide-toggle>How many km</mat-slide-toggle>
-    <mat-slide-toggle>Time ridden</mat-slide-toggle>
-    <mat-slide-toggle>Message notifications</mat-slide-toggle>
+    <mat-slide-toggle [(ngModel)]="nsets.isOn" (change)="toggle($event)">On/Off</mat-slide-toggle>
+    <mat-slide-toggle [(ngModel)]="nsets.avgSpeed" (change)="toggle($event)">Avg. speed</mat-slide-toggle>
+    <mat-slide-toggle [(ngModel)]="nsets.distance" (change)="toggle($event)">How many km</mat-slide-toggle>
+    <mat-slide-toggle [(ngModel)]="nsets.time" (change)="toggle($event)">Time ridden</mat-slide-toggle>
+  <!--    <mat-slide-toggle [(ngModel)]="notifications">Message notifications</mat-slide-toggle>-->
   </div>
 
-  <div class="notifications">
-    <h2>Notifications</h2>
-    <mat-slide-toggle>On/Off</mat-slide-toggle>
-  </div>
+<!--  <div class="notifications">-->
+<!--    <h2>Notifications</h2>-->
+<!--    <mat-slide-toggle [(ngModel)]="notifications">On/Off</mat-slide-toggle>-->
+<!--  </div>-->
 
   <div class="profile-settings">
-    <h2>Profile</h2>
-    <button mat-raised-button>Change password</button>
-    <button mat-raised-button>Change e-mail</button>
-    <button mat-raised-button>Change username</button>
-    <mat-slide-toggle>Use kilometres vs. miles</mat-slide-toggle>
+<!--    <h2>Profile</h2>-->
+<!--    <button mat-raised-button>Change password</button>-->
+<!--    <button mat-raised-button>Change e-mail</button>-->
+<!--    <button mat-raised-button>Change username</button>-->
+<!--    <mat-slide-toggle [(ngModel)]="kmMiles">Use kilometres vs. miles</mat-slide-toggle>-->
     <button mat-raised-button (click)="login()">Log in</button>
     <button mat-raised-button (click)="logout()">Log out</button>
   </div>

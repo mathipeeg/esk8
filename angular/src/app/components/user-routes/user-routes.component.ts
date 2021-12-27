@@ -4,6 +4,7 @@ import {Observable} from "rxjs";
 import {map} from "rxjs/operators";
 import {Esk8Service} from "../../services/esk8.service";
 import {Route} from "../../models";
+import {RouteService} from "../../services/route.service";
 
 @Component({
   selector: 'nt-user-routes',
@@ -15,18 +16,14 @@ export class UserRoutesComponent implements OnInit {
   userId$: Observable<number | undefined>;
 
   constructor(private route: ActivatedRoute,
-              private esk8Service: Esk8Service) { }
+              private esk8Service: Esk8Service,
+              private routeService: RouteService) { }
 
   ngOnInit(): void {
     this.userId$ = this.route.paramMap.pipe(
       map(params => {
         let uId = Number(params.get('userId'))
-        if(uId !== undefined && uId > 0){
-          this.esk8Service.setUserSubjectId(uId)
-        }
-        else{
-          // redirect
-        }
+        console.log(uId);
         return uId
       })
     );
@@ -40,4 +37,16 @@ export class UserRoutesComponent implements OnInit {
           return routes;
         }) // test
       )
+
+  deleteRoute(id: number) {
+    console.log(id)
+    this.routeService.deleteRoute(id).subscribe(e => {
+      console.log(e);
+    })
+    console.log('deleting')
+  }
+
+  editRoute() {
+    console.log('editing')
+  }
 }

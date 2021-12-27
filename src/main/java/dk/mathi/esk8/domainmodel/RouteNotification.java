@@ -16,7 +16,7 @@ public class RouteNotification {
     private boolean isOn;
 
     @Column(name = "interval")
-    private boolean interval;
+    private int interval;
 
     @Column(name = "avg_speed")
     private boolean avgSpeed;
@@ -28,12 +28,13 @@ public class RouteNotification {
     private boolean time;
 
     @Column(name = "voice_actor")
+    @Enumerated(EnumType.STRING)
     private VoiceActors voiceActor;
 
     public RouteNotification() {
     }
 
-    public RouteNotification(long id, boolean isOn, boolean interval, boolean avgSpeed, boolean distance, boolean time, VoiceActors voiceActor) {
+    public RouteNotification(long id, boolean isOn, int interval, boolean avgSpeed, boolean distance, boolean time, VoiceActors voiceActor) {
         this.id = id;
         this.isOn = isOn;
         this.interval = interval;
@@ -51,23 +52,23 @@ public class RouteNotification {
         this.id = id;
     }
 
-    public boolean isOn() {
+    public boolean getIsOn() {
         return isOn;
     }
 
-    public void setOn(boolean on) {
-        isOn = on;
+    public void setIsOn(boolean isOn) {
+        this.isOn = isOn;
     }
 
-    public boolean isInterval() {
+    public int getInterval() {
         return interval;
     }
 
-    public void setInterval(boolean interval) {
+    public void setInterval(int interval) {
         this.interval = interval;
     }
 
-    public boolean getAvgSpeed() {
+    public boolean isAvgSpeed() {
         return avgSpeed;
     }
 

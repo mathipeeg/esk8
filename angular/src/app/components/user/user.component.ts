@@ -59,6 +59,7 @@ export class UserComponent implements OnInit {
     });
 
     this.user$.subscribe(u => {
+      console.log(u)
       this.userId = u.id;
     })
 

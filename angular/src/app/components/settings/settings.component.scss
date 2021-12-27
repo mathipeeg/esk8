@@ -3,6 +3,7 @@
 .settings {
   height: $content-height;
   overflow: scroll;
+  padding: $temp-margin-and-padding;
   .voice-settings, .notifications, .profile-settings {
     display: flex;
     flex-direction: column;

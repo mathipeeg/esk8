@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {catchError, combineLatest, EMPTY, Observable, of, retry, shareReplay, switchMap, timer} from "rxjs";
+import {catchError, combineLatest, EMPTY, Observable, of, retry, shareReplay, switchMap, tap, timer} from "rxjs";
 import {Board} from "../models";
 import {HttpClient} from "@angular/common/http";
 import {Esk8Service} from "./esk8.service";
@@ -29,18 +29,18 @@ export class BoardService {
 
     this.userBoards$ = combineLatest([this.esk8Service.currentUser$])
       .pipe(
-        switchMap(([user]) => this.http.get<Board[]>(`${this.baseUrl}/boards/all/${user.id}`) // todo med id
+        switchMap(([user]) => this.http.get<Board[]>(`${this.baseUrl}/boards/all/${user.id}`, {headers: this.authenticationService.getAccessToken()}) // todo med id
           .pipe(catchError((error) => {
             console.log(error)
             return EMPTY;
-          }))),
+          }))), tap(console.log),
         retry(1),
         shareReplay(1)
       );
   }
 
   addBoard(board: Board): Observable<Board | undefined> {
-    return this.http.post<Board>(`${this.baseUrl}/boards/create`, board)
+    return this.http.post<Board>(`${this.baseUrl}/boards/create`, board, {headers: this.authenticationService.getAccessToken()})
       .pipe(
         catchError(this.handleError(`post ${this.baseUrl}.json`, undefined))
       );

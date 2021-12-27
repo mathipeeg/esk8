@@ -12,7 +12,7 @@ import {
   switchMap,
   timer
 } from "rxjs";
-import {Board, GeoLocation, LonLat, Route, User, UserDb} from "../models";
+import {Board, GeoLocation, LonLat, Route, RouteNotification, User, UserDb} from "../models";
 import {HttpClient} from "@angular/common/http";
 import {map} from "rxjs/operators";
 import {AuthenticationService} from "./authentication.service";
@@ -25,6 +25,7 @@ export class Esk8Service {
   readonly users$: Observable<User[]>;
   readonly currentUser$: Observable<UserDb>;
   readonly userRoutes$: Observable<Route[]>;
+  readonly userNotificationSettings$: Observable<RouteNotification>;
 
   private readonly geoLocationSubject = new ReplaySubject<GeoLocation>(1);
   geoLocation$: Observable<GeoLocation> = this.geoLocationSubject;
@@ -39,7 +40,7 @@ export class Esk8Service {
 
     this.users$ = timer(0, 5000)
       .pipe(
-        switchMap(() => this.http.get<User[]>(`${this.baseUrl}/users/all`) // todo also med id
+        switchMap(() => this.http.get<User[]>(`${this.baseUrl}/users/all`, {headers: this.authenticationService.getAccessToken()}) // todo also med id
           .pipe(catchError((error) => {
             return EMPTY;
           }))),
@@ -49,7 +50,7 @@ export class Esk8Service {
 
     this.currentUser$ = combineLatest([this.authenticationService.currentUser$])
       .pipe(
-        switchMap(([currentUser]) => this.http.get<UserDb>(`${this.baseUrl}/users/${currentUser.referenceKey}`) // todo med id
+        switchMap(([currentUser]) => this.http.get<UserDb>(`${this.baseUrl}/users/${currentUser.referenceKey}`, {headers: this.authenticationService.getAccessToken()}) // todo med id
           .pipe(catchError((error) => {
             console.log(error)
             return EMPTY;
@@ -58,9 +59,9 @@ export class Esk8Service {
         shareReplay(1)
       );
 
-    this.userRoutes$ = combineLatest([this.userIdSubject])
+    this.userRoutes$ = combineLatest([this.currentUser$])
       .pipe(
-        switchMap(([userId]) => this.http.get<Route[]>(`${this.baseUrl}/routes/all/${userId}`) // todo med id
+        switchMap(([user]) => this.http.get<Route[]>(`${this.baseUrl}/routes/all/${user.id}`) // todo med id
           .pipe(catchError((error) => {
             console.log(error)
             return EMPTY;
@@ -68,6 +69,17 @@ export class Esk8Service {
         retry(1),
         shareReplay(1)
       );
+
+    this.userNotificationSettings$ = combineLatest([this.currentUser$])
+      .pipe(
+        switchMap(([user]) => this.http.get<RouteNotification>(`${this.baseUrl}/routeNotifications/${user.routeNotificationId}`) // todo med id
+          .pipe(catchError((error) => {
+            console.log(error)
+            return EMPTY;
+          }))),
+        retry(1),
+        shareReplay(1)
+      )
   }
 
   getGeolocation() {

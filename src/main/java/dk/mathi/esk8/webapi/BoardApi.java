@@ -79,6 +79,7 @@ public class BoardApi {
     @Consumes("application/json")
     @Produces("application/json")
     @Path("/create")
+    @RolesAllowed({"esk8-user", "esk8-admin"})
     public Response create(Board board) {
         try {
             Response response = boardService.create(board);

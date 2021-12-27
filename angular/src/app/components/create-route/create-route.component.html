@@ -1,5 +1,7 @@
-<button mat-raised-button (click)="createRoute()">Create</button>
-<button mat-raised-button (click)="stopRoute()">End</button>
-<div *ngIf="newRoute">
-  <div *ngIf="(coordinates$ | async) as coords"></div>
+<div class="create-route-div">
+  <button mat-raised-button (click)="createRoute()">Create</button>
+  <button mat-raised-button (click)="stopRoute()">End</button>
+  <div *ngIf="newRoute">
+    <div *ngIf="(coordinates$ | async) as coords"></div>
+  </div>
 </div>

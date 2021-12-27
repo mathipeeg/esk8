@@ -26,10 +26,11 @@ public class RouteNotificationApi {
     @Path("/{routeNotificationId}")
     public RouteNotification get(@PathParam("routeNotificationId") long routeNotificationId) {
         try {
-            RouteNotification routeNotification = routeNotificationRepo.getById(routeNotificationId);
+            RouteNotification routeNotification = routeNotificationRepo.getByIdTest(routeNotificationId);
             if (routeNotification == null) {
                 throw new Exception("Route Notification is prob null, dude.");
             }
+            System.out.println(routeNotification.getInterval());
             return routeNotification;
         } catch(Exception e) {
             throw new WebApplicationException(Response.Status.INTERNAL_SERVER_ERROR);
