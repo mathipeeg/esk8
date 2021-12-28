@@ -95,4 +95,15 @@ public class UserApi {
             throw new WebApplicationException(Response.Status.INTERNAL_SERVER_ERROR);
         }
     }
+
+    @GET
+    @Consumes("application/json")
+    public User getLatest() {
+        try {
+            User u = userRepo.getLatest();
+            return u;
+        } catch(Exception e) {
+            throw new WebApplicationException(Response.Status.INTERNAL_SERVER_ERROR);
+        }
+    }
 }

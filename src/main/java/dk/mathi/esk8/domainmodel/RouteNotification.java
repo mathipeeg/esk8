@@ -4,7 +4,7 @@ import javax.persistence.*;
 import java.util.Arrays;
 
 @Entity
-@Table(name = "ROUTE_NOTIFICATIONS")
+@Table(name = "ROUTE_NOTIFICATION")
 public class RouteNotification {
     @Id
     @GeneratedValue(strategy = GenerationType.TABLE, generator = "ROUTE_NOTIFICATIONS.ROUTE_NOTIFICATION_ID")

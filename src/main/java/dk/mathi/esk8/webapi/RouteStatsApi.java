@@ -92,4 +92,15 @@ public class RouteStatsApi {
             throw new WebApplicationException(Response.Status.INTERNAL_SERVER_ERROR);
         }
     }
+
+    @GET
+    @Consumes("application/json")
+    public RouteStats getLatest() {
+        try {
+            RouteStats r = routeStatsRepo.getLatest();
+            return r;
+        } catch(Exception e) {
+            throw new WebApplicationException(Response.Status.INTERNAL_SERVER_ERROR);
+        }
+    }
 }

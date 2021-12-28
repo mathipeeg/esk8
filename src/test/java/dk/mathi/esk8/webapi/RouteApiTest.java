@@ -6,6 +6,8 @@ import dk.mathi.esk8.domainmodel.RoadType;
 import dk.mathi.esk8.domainmodel.Route;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
+import org.locationtech.jts.io.ParseException;
+import org.locationtech.jts.io.WKTReader;
 import org.postgis.LineString;
 import org.postgis.Point;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -26,71 +28,54 @@ class RouteApiTest {
   private RouteApi routeApi;
 
   @Test
-  @Disabled
-  void testCreateRouteAndGetById() {
+  void testCreateRouteAndGetById() throws ParseException {
     Route route = new Route();
+    route.setUserId(1);
     route.setName("Route name");
     route.setRoadType(RoadType.CONCRETE);
     route.setCategory(Category.CHALLENGE);
     route.setLength(1000);
     route.setRating(3);
     route.setNote("Note");
-    Point point1 = new Point(26.2044, 28.0456);
-    Point point2 = new Point(26.2045, 28.0457);
-    LineString lineString1 = new LineString(new Point[] {point1, point2});
-//    route.setGeometry(lineString1);
+    String coords = "LINESTRING(10 5, 10 14)";
 
-//    Response response = routeApi.createRoute(route); // todo
-//    assertEquals(response.getStatus(), 201); // created
+    // CREATE
+    Response response = routeApi.createRoute(route, coords);
+    assertEquals(response.getStatus(), 200);
 
+    // GET
     Route getRoute = routeApi.get(route.getId());
     assertNotNull(getRoute);
-  }
 
-  @Test
-  @Disabled
-  void update() {
-    Route route = new Route();
-    route.setName("Route name");
-    route.setRoadType(RoadType.CONCRETE);
-    route.setCategory(Category.CHALLENGE);
-    route.setLength(1000);
-    route.setRating(3);
-    route.setNote("Note");
-    Point point1 = new Point(26.2044, 28.0456);
-    Point point2 = new Point(26.2045, 28.0457);
-    LineString lineString1 = new LineString(new Point[] {point1, point2});
-//    route.setGeometry(lineString1);
-
-//    Response response = routeApi.createRoute(route);
-//    assertEquals(response.getStatus(), 201); // created
-
+    // UPDATE
     route.setNote("New note");
     Response newResponse = routeApi.update(route);
     assertEquals(newResponse.getStatus(), 200);
-    assertEquals(route.getNote(), "New note");
+
+    Route nRoute = routeApi.getLatest();
+    assertEquals(nRoute.getNote(), "New note");
   }
 
   @Test
-  @Disabled
   void delete(){
     Route route = new Route();
+    route.setUserId(1);
     route.setName("Route name");
     route.setRoadType(RoadType.CONCRETE);
     route.setCategory(Category.CHALLENGE);
     route.setLength(1000);
     route.setRating(3);
     route.setNote("Note");
-    Point point1 = new Point(26.2044, 28.0456);
-    Point point2 = new Point(26.2045, 28.0457);
-    LineString lineString1 = new LineString(new Point[] {point1, point2});
-//    route.setGeometry(lineString1);
+    String coords = "LINESTRING(10 5, 10 14)";
 
-//    Response response = routeApi.createRoute(route);
-//    assertEquals(response.getStatus(), 201); // created
+    // CREATE
+    Response response = routeApi.createRoute(route, coords);
+    assertEquals(response.getStatus(), 200);
+
+    // DELETE
     List<Route> routesBefore = routeApi.get();
+    Response newResponse = routeApi.delete(routeApi.getLatest().getId());
 
-    Response newResponse = routeApi.delete(route.getId());
     assertEquals(newResponse.getStatus(), 200); // OK
     List<Route> routesAfter = routeApi.get();
 

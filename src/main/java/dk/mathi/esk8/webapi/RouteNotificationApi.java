@@ -1,5 +1,6 @@
 package dk.mathi.esk8.webapi;
 
+import dk.mathi.esk8.domainmodel.Route;
 import dk.mathi.esk8.domainmodel.RouteNotification;
 import dk.mathi.esk8.repository.RouteNotificationRepo;
 import dk.mathi.esk8.service.RouteNotificationService;
@@ -86,6 +87,17 @@ public class RouteNotificationApi {
         try {
             Response response = routeNotificationService.delete(id);
             return response;
+        } catch(Exception e) {
+            throw new WebApplicationException(Response.Status.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GET
+    @Consumes("application/json")
+    public RouteNotification getLatest() {
+        try {
+            RouteNotification r = routeNotificationRepo.getLatest();
+            return r;
         } catch(Exception e) {
             throw new WebApplicationException(Response.Status.INTERNAL_SERVER_ERROR);
         }

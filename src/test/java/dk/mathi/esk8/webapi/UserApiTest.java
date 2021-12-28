@@ -29,49 +29,29 @@ class UserApiTest {
     user.setWeight(60);
     user.setGender(Gender.FEMALE);
     user.setRouteNotificationId(1);
-    user.setId(5);
+    user.setReferenceKey("x");
 
+    // CREATE
     Response response = userApi.create(user);
     assertEquals(response.getStatus(), 201); // created
 
-//    User getUser = userApi.get(5);
-//    assertNotNull(getUser);
-  }
+    // GET
+    User getUser = userApi.getLatest();
+    assertNotNull(getUser);
 
-  @Test
-  @Disabled
-  void update() {
-    User user = new User();
-    user.setHeight(170);
-    user.setWeight(60);
-    user.setGender(Gender.FEMALE);
-    user.setRouteNotificationId(1);
-    user.setId(5);
-
-    Response response = userApi.create(user);
-    assertEquals(response.getStatus(), 201); // created
-
-//    user.setName("New name");
-//    Response newResponse = userApi.update(user);
-//    assertEquals(newResponse.getStatus(), 200);
-//    assertEquals(user.getName(), "New name");
+    // UPDATE
+    user.setHeight(400);
+    Response newResponse = userApi.update(user);
+    assertEquals(newResponse.getStatus(), 200);
+    assertEquals(user.getHeight(), 400);
   }
 
   @Test
   @Disabled
   void deleteUser(){
-    User user = new User();
-    user.setHeight(170);
-    user.setWeight(60);
-    user.setGender(Gender.FEMALE);
-    user.setRouteNotificationId(1);
-    user.setId(5);
-
-    Response response = userApi.create(user);
-    assertEquals(response.getStatus(), 201); // created
     List<User> usersBefore = userApi.get();
 
-    Response newResponse = userApi.delete(user.getId());
+    Response newResponse = userApi.delete(userApi.getLatest().getId());
     assertEquals(newResponse.getStatus(), 200); // OK
     List<User> usersAfter = userApi.get();
 

@@ -26,8 +26,7 @@ class CommentApiTest {
   private CommentApi commentApi;
 
   @Test
-  @Disabled
-  void testCreateCommentAndGetById() {
+  void testCreateAndUpdateComment() {
     Comment comment = new Comment();
     comment.setUserId(1);
     comment.setRouteId(1);
@@ -35,26 +34,15 @@ class CommentApiTest {
     Timestamp timestamp = new Timestamp(System.currentTimeMillis());
     comment.setTimestamp(timestamp);
 
+    // CREATE
     Response response = commentApi.create(comment);
     assertEquals(response.getStatus(), 201); // created
 
-    Comment getComment = commentApi.get(comment.getId());
+    // GET
+    Comment getComment = commentApi.getLatest();
     assertNotNull(getComment);
-  }
 
-  @Test
-  @Disabled
-  void update() {
-    Comment comment = new Comment();
-    comment.setUserId(1);
-    comment.setRouteId(1);
-    comment.setComment("Comment test");
-    Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-    comment.setTimestamp(timestamp);
-
-    Response response = commentApi.create(comment);
-    assertEquals(response.getStatus(), 201); // created
-
+    // UPDATE
     comment.setComment("New comment");
     Response newResponse = commentApi.update(comment);
     assertEquals(newResponse.getStatus(), 200);
@@ -71,11 +59,15 @@ class CommentApiTest {
     Timestamp timestamp = new Timestamp(System.currentTimeMillis());
     comment.setTimestamp(timestamp);
 
+    // CREATE
     Response response = commentApi.create(comment);
     assertEquals(response.getStatus(), 201); // created
-    List<Comment> commentsBefore = commentApi.getAll();
 
-    Response newResponse = commentApi.delete(comment.getId());
+    // DELETE
+    List<Comment> commentsBefore = commentApi.getAll();
+    Comment c = commentApi.getLatest();
+    Response newResponse = commentApi.delete(c.getId());
+
     assertEquals(newResponse.getStatus(), 200); // OK
     List<Comment> commentsAfter = commentApi.getAll();
 

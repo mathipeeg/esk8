@@ -38,7 +38,7 @@ public class RouteNotificationService {
 //      return Response.status(Response.Status.NO_CONTENT).entity(null).build();
 //    }
     routeNotificationRepo.deleteById(id);
-    return Response.status(Response.Status.GONE).entity(id).build(); // gone?
+    return Response.status(Response.Status.OK).entity(id).build(); // gone?
   }
 
 }

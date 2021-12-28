@@ -10,4 +10,7 @@ import java.util.List;
 public interface CommentRepo extends JpaRepository<Comment, Long> {
     @Query(value = "select * from COMMENTS where route_id = :routeId", nativeQuery = true)
     public List<Comment> findByRouteId(long routeId);
+
+    @Query(value = "select * from COMMENTS where comment_id=(SELECT max(comment_id) FROM COMMENTS)", nativeQuery = true)
+    public Comment getLatest();
 }

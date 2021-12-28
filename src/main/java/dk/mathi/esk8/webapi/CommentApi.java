@@ -1,5 +1,6 @@
 package dk.mathi.esk8.webapi;
 
+import dk.mathi.esk8.domainmodel.Board;
 import dk.mathi.esk8.domainmodel.Comment;
 import dk.mathi.esk8.repository.CommentRepo;
 import dk.mathi.esk8.service.CommentService;
@@ -102,6 +103,17 @@ public class CommentApi {
         try {
             Response response = commentService.delete(id);
             return response;
+        } catch(Exception e) {
+            throw new WebApplicationException(Response.Status.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GET
+    @Consumes("application/json")
+    public Comment getLatest() {
+        try {
+            Comment c = commentRepo.getLatest();
+            return c;
         } catch(Exception e) {
             throw new WebApplicationException(Response.Status.INTERNAL_SERVER_ERROR);
         }

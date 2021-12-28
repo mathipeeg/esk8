@@ -1,5 +1,6 @@
 package dk.mathi.esk8.webapi;
 
+import dk.mathi.esk8.domainmodel.Board;
 import dk.mathi.esk8.domainmodel.Route;
 import dk.mathi.esk8.repository.RouteRepo;
 import dk.mathi.esk8.service.RouteService;
@@ -101,14 +102,9 @@ public class RouteApi {
     @Path("/createRoute")
     public Response createRoute(Route route, @QueryParam("coords") String coords) {
         try {
-            System.out.println(coords);
             WKTReader wktr = new WKTReader();
-//            String t1 = "SRID=4326;LINESTRING(10 10, 40 40, 60 60)";
-//            String t2 = "LINESTRING(10 10, 40 40, 60 60)";
-            System.out.println("id: " + route.getId());
             LineString wtest = (LineString) (wktr.read(coords));
             wtest.setSRID(4326);
-            System.out.println("the one? " + wtest);
             route.setGeometry(wtest);
             Response response = routeService.create(route);
             return response;
@@ -137,6 +133,17 @@ public class RouteApi {
         try {
             Response response = routeService.delete(id);
             return response;
+        } catch(Exception e) {
+            throw new WebApplicationException(Response.Status.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GET
+    @Consumes("application/json")
+    public Route getLatest() {
+        try {
+            Route r = routeRepo.getLatest();
+            return r;
         } catch(Exception e) {
             throw new WebApplicationException(Response.Status.INTERNAL_SERVER_ERROR);
         }

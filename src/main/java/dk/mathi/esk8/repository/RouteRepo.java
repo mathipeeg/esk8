@@ -11,4 +11,7 @@ import java.util.List;
 public interface RouteRepo extends JpaRepository<Route, Long> {
     @Query(value = "select * from ROUTES where USER_ID = :userId", nativeQuery = true)
     public List<Route> findRoutesByUserId(long userId);
+
+    @Query(value = "select * from ROUTES where route_id=(SELECT max(route_id) FROM ROUTES)", nativeQuery = true)
+    public Route getLatest();
 }

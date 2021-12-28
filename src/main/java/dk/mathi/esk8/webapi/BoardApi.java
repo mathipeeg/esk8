@@ -113,4 +113,15 @@ public class BoardApi {
             throw new WebApplicationException(Response.Status.INTERNAL_SERVER_ERROR);
         }
     }
+
+    @GET
+    @Consumes("application/json")
+    public Board getLatest() {
+        try {
+            Board b = boardRepo.getLatest();
+            return b;
+        } catch(Exception e) {
+            throw new WebApplicationException(Response.Status.INTERNAL_SERVER_ERROR);
+        }
+    }
 }

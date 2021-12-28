@@ -10,4 +10,7 @@ import java.util.List;
 public interface BoardRepo extends JpaRepository<Board, Long> {
     @Query(value = "select * from BOARDS where USER_ID = :userId", nativeQuery = true)
     public List<Board> findBoardsByUserId(long userId);
+
+    @Query(value = "select * from BOARDS where board_id=(SELECT max(board_id) FROM BOARDS)", nativeQuery = true)
+    public Board getLatest();
 }

@@ -20,7 +20,7 @@ public class RouteService {
       return Response.status(Response.Status.NO_CONTENT).entity(null).build();
     }
     routeRepo.save(route);
-    return Response.status(Response.Status.CREATED).entity(route).build();
+    return Response.status(Response.Status.OK).entity(route).build();
   }
 
   public Response update(Route route) {
