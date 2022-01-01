@@ -21,7 +21,7 @@ export class MapViewComponent implements OnInit {
   ngOnInit(): void {
     sessionStorage.setItem('lastPage', this.router.url);
     this.mapService.createMap();
-    this.mapService.getGeolocation();
+    //this.mapService.getGeolocation();
 
     // this.mapService.test$.subscribe( location => {
     //   console.log(location)

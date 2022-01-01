@@ -7,10 +7,10 @@ import { defaults } from 'ol/interaction';
 import {Feature, Map, MapEvent, View} from 'ol';
 import { transform, transformExtent } from 'ol/proj';
 import {MouseEvents } from '../openlayers-tools/mouse-events';
-import {map, take} from 'rxjs/operators';
+import {map, mergeMap, take} from 'rxjs/operators';
 import { TileWMS } from 'ol/source';
 import { FeatureEvents } from '../openlayers-tools/feature-events';
-import {Observable, ReplaySubject, timer, combineLatest, interval} from 'rxjs';
+import {Observable, ReplaySubject, timer, combineLatest, interval, startWith, shareReplay} from 'rxjs';
 import { Zoom } from 'ol/control';
 import TileLayer from 'ol/layer/Tile';
 import { Extent } from 'ol/extent';
@@ -18,9 +18,10 @@ import VectorSource from "ol/source/Vector";
 import VectorLayer from "ol/layer/Vector";
 import {Coordinate} from "ol/coordinate";
 import {GeoLocation, LonLat} from "../models";
-import {Point} from "ol/geom";
-import {Icon, Style} from "ol/style";
+import {LineString, Point} from "ol/geom";
+import {Fill, Icon, Stroke, Style} from "ol/style";
 import IconAnchorUnits from "ol/style/IconAnchorUnits";
+import {CreateRouteComponent} from "../components/create-route/create-route.component";
 
 @Injectable({providedIn: 'root'})
 export class MapService {
@@ -35,15 +36,19 @@ export class MapService {
   private readonly geoLocationSubject = new ReplaySubject<GeoLocation>(1);
   geoLocation$: Observable<GeoLocation> = this.geoLocationSubject;
 
+  test$: Observable<any>; // todo
   private readonly onMoveEndSubject = new ReplaySubject<MapEvent>(1);
 
   private wmsSource: TileWMS;
   private olMap: Map;
 
-  private url: string = "http://localhost:8081/geoserver/esk8/wms?"
+  private url: string = "https://gs.esk8.grand-cloud.dk/geoserver/esk8/wms?"
 
   iconSource = new VectorSource();
   iconLayer = new VectorLayer({source: this.iconSource});
+
+  previewRouteSource = new VectorSource();
+  previewRouteLayer = new VectorLayer({source: this.previewRouteSource});
 
   drawCoords: boolean = false;
   lastCoords: Coordinate | undefined = undefined;
@@ -61,13 +66,19 @@ export class MapService {
       projection: 'EPSG:900913',
       url: this.url
     });
+
     this.onMoveEndSubject.subscribe(event => {
       const extentString = event.map.getView().calculateExtent().map(c => c.toString()).join(';');
       sessionStorage.setItem('mapExtent', extentString);
     });
 
+    timer(0, 1000)
+      .subscribe(_ => {
+        this.getGeolocation()
+      })
+
     this.geoLocationTimer$ =
-      combineLatest([this.geoLocation$, timer(0, 1000)])
+      combineLatest([this.geoLocation$, this.geoLocationSubject])
         .pipe(
           map(([coords, _]) => {
             return coords;
@@ -112,18 +123,12 @@ export class MapService {
           });
         }
 
-        combineLatest([this.geoLocation$, timer(0,500)]).pipe(take(1)).subscribe(([coords, _]) => {
-          if (coords) {
-            this.drawIcon(transform([coords.lon, coords.lat], 'EPSG:4326', this.olMap.getView().getProjection()))
-            this.olMap.getView().setCenter(transform([coords.lon, coords.lat], 'EPSG:4326', this.olMap.getView().getProjection()));
-          }
-        });
-
         this.olMap.getView().setZoom(7);
         this.olMap.on('moveend', event => this.onMoveEndSubject.next(event));
 
-        this.olMap.addLayer(new TileLayer({source: this.wmsSource, preload: 4}));
         this.olMap.addLayer(this.iconLayer);
+        this.olMap.addLayer(this.previewRouteLayer);
+        this.olMap.addLayer(new TileLayer({source: this.wmsSource, preload: 4}));
         this.mouseEvents.setMap(this.olMap);
         this.featureEvents.setSource(this.wmsSource, 'esk8:routes').setMouseEvents(this.mouseEvents);
 
@@ -145,17 +150,41 @@ export class MapService {
     const iconFeature = new Feature(new Point(coordinate));
     const iconStyle = new Style({
       image: new Icon({
-        anchor: [0, 0],
+        anchor: [0.5, 0.5],
         // anchorXUnits: IconAnchorUnits.FRACTION,
         // anchorYUnits: IconAnchorUnits.FRACTION,
-        src: `assets/map_marker.png`,
-        scale: 0.8
+        src: `assets/my_location.png`,
+        scale: 0.6
       })
     });
     iconFeature.setStyle(iconStyle);
     this.iconSource.clear();
     this.iconSource.addFeature(iconFeature);
     // }
+  }
+
+  drawPreviewRoute(coordinates: [Coordinate]) {
+    console.log('draw')
+    var featureLineCoords = []
+
+    for (var i = 0; i < coordinates.length; i++) {
+      console.log(coordinates[i])
+      featureLineCoords.push(transform(coordinates[i]
+      , 'EPSG:4326'
+      , this.olMap.getView().getProjection()))
+    }
+
+    var featureLine = new Feature({
+      geometry: new LineString(featureLineCoords)
+    });
+
+    const lineStyle = new Style({
+        fill: new Fill({ color: '#23acde'}),
+        stroke: new Stroke({ color: '#23acde', width: 7 })
+    });
+    featureLine.setStyle(lineStyle);
+    //this.previewRouteSource.clear();
+    this.previewRouteSource.addFeature(featureLine);
   }
 
   sleep(milliseconds: number) {
@@ -174,14 +203,19 @@ export class MapService {
     // Retrunere position objekt.
     navigator.geolocation.getCurrentPosition(
       (position) => {
-        console.log(position)
         this.geoLocationSubject.next({lon: position.coords.longitude, lat: position.coords.latitude});
+
+        this.drawIcon(transform([position.coords.longitude, position.coords.latitude]
+                                          , 'EPSG:4326'
+                                          , this.olMap.getView().getProjection()))
       },
       () => {
-        this.geoLocationSubject.next({lon: 0, lat: 0});
+        console.log('error')
+        // this.geoLocationSubject.next({lon: 0, lat: 0});
       },
       positionOptions
     );
+    // this.geoLocationSubject.next({lon: 0, lat: 0});
   }
 
   drawRouteIcons(coordinate: Coordinate) {
@@ -191,6 +225,11 @@ export class MapService {
   setCenterOnMap(coordinates: Coordinate) {
     this.olMap.getView().setCenter(transform(coordinates, 'EPSG:4326', this.olMap.getView().getProjection()));
   }
+
+  clearPreview() {
+    this.previewRouteSource.clear();
+  }
 }
+
 
 

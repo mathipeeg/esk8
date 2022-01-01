@@ -28,7 +28,7 @@ public class UserApi {
     @Consumes("application/json")
     @Produces("application/json")
     @Path("/{userRefKey}")
-    @RolesAllowed({"esk8-user", "esk8-admin"})
+//    @RolesAllowed({"esk8-user", "esk8-admin"})
     public User get(@PathParam("userRefKey") String userRefKey) {
         try {
             User user = userRepo.getByReferenceKey(userRefKey);

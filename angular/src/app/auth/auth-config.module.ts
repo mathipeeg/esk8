@@ -5,7 +5,7 @@ import { AuthModule, LogLevel} from 'angular-auth-oidc-client';
   imports: [
     AuthModule.forRoot({
       config: {
-        authority: 'http://localhost:8082/auth/realms/esk8',
+        authority: 'https://auth.esk8.grand-cloud.dk/auth/realms/esk8',
         redirectUrl: window.location.origin + '/settings',
         postLogoutRedirectUri: window.location.origin,
         clientId: 'esk8',

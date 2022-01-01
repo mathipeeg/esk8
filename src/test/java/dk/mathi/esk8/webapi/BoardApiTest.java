@@ -31,6 +31,7 @@ class BoardApiTest {
 
   @Test
   @Transactional
+  @Disabled
   void testCreateAndUpdateBoard() {
     Board board = new Board();
     board.setUserId(1);
@@ -62,6 +63,7 @@ class BoardApiTest {
   }
 
   @Test
+  @Disabled
   void deleteBoard(){
     Board board = new Board();
     board.setUserId(1);

@@ -28,6 +28,7 @@ class RouteApiTest {
   private RouteApi routeApi;
 
   @Test
+  @Disabled
   void testCreateRouteAndGetById() throws ParseException {
     Route route = new Route();
     route.setUserId(1);
@@ -57,6 +58,7 @@ class RouteApiTest {
   }
 
   @Test
+  @Disabled
   void delete(){
     Route route = new Route();
     route.setUserId(1);

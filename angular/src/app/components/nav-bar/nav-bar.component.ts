@@ -20,6 +20,7 @@ export class NavBarComponent implements OnInit {
     this.mapService.geoLocation$
       .pipe(
         map((coords) => {
+          console.log('tet')
           this.mapService.setCenterOnMap([coords.lon, coords.lat]);
           return coords;
         })
@@ -29,8 +30,8 @@ export class NavBarComponent implements OnInit {
   }
 
   home() {
-    this.center$.subscribe();
-    this.router.navigateByUrl('');
+    // this.center$.subscribe();
+    this.router.navigateByUrl ('');
   }
 
   toUser() {

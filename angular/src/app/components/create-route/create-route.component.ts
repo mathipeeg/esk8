@@ -7,6 +7,7 @@ import {Coordinate, toStringXY} from "ol/coordinate";
 import {lineStringCoordinateAtM} from "ol/geom/flat/interpolate";
 import {LineString} from "ol/geom";
 import {RouteService} from "../../services/route.service";
+import {Observable} from "rxjs";
 
 
 @Component({
@@ -18,7 +19,8 @@ export class CreateRouteComponent implements OnInit {
   power: number | undefined;
   degrees: number | undefined;
   newRoute: boolean = false;
-  newRouteCoords: string = '';
+  newRouteWKT: string = '';
+  newRouteCoords: [Coordinate] | undefined;
 
   constructor(public dialog: MatDialog,
               private mapService: MapService,
@@ -26,7 +28,7 @@ export class CreateRouteComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log(this.newRouteCoords)
+    console.log(this.newRouteWKT)
   }
 
   createRoute(): void {
@@ -43,7 +45,7 @@ export class CreateRouteComponent implements OnInit {
         this.degrees = result.degrees;
       }
       else {
-        console.log('jsfkl')
+        // console.log('ongoing')
       }
     });
   }
@@ -51,7 +53,7 @@ export class CreateRouteComponent implements OnInit {
   stopRoute() {
     this.newRoute = false;
     // this.newRouteCoords.shift();
-    console.log(this.newRouteCoords)
+    console.log(this.newRouteWKT)
     this.endRoute();
   }
 
@@ -63,7 +65,6 @@ export class CreateRouteComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       console.log(result)
-      console.log('the route has been ended somehow');
       let route = {} as Route;
       route.name = result.name;
       route.rating = result.rating;
@@ -73,29 +74,30 @@ export class CreateRouteComponent implements OnInit {
       route.roadType = result.terrain;
       route.picture = [0];
       route.userId = 1;
-      console.log(this.newRouteCoords)
-      let coords = this.newRouteCoords.substring(0, this.newRouteCoords.length - 2)
+      console.log(this.newRouteWKT)
+      let coords = this.newRouteWKT.substring(0, this.newRouteWKT.length - 2)
       const wkt = 'LINESTRING(' + coords + ')'
       this.routeService.addRoute(route, wkt).subscribe((e)=> console.log(e));
-      this.newRouteCoords = ''; // todo find better way to do this
+      this.newRouteWKT = ''; // todo find better way to do this
+      this.mapService.clearPreview();
     });
   }
 
-  coordinates$ =
-    this.mapService.geoLocationTimer$
+  coordinates$: Observable<String> =
+    this.mapService.geoLocation$
       .pipe(
         map( (coords: GeoLocation) => {
           if (this.newRoute) {
-            // save location to db.
-            // let coord: Coordinate = [coords.lon, coords.lat];
-            // console.log(this.test)
-            // this.test.appendCoordinate(coord);
-            console.log(coords)
-            this.newRouteCoords = this.newRouteCoords + coords.lon.toString() + ' ' + coords.lat.toString() + ', ';
-            // set center in service.
-            this.mapService.setCenterOnMap([coords.lon, coords.lat]);
-            console.log(this.newRouteCoords) // todo check why 0,0 isn't there?
+            this.newRouteWKT = this.newRouteWKT + coords.lon.toString() + ' ' + coords.lat.toString() + ', ';
+            if (this.newRouteCoords) {
+              this.newRouteCoords.push([coords.lon, coords.lat])
+              this.mapService.drawPreviewRoute(this.newRouteCoords)
+            } else {
+              this.newRouteCoords = [[coords.lon, coords.lat]]
+            }
+            console.log(this.newRouteWKT)
           }
+          return this.newRouteWKT;
         })
       )
 }
